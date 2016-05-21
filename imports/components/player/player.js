@@ -19,9 +19,13 @@ class PlayerCtrl {
       //controls: 0,
       autoplay: 1
     };
+    let trackLastChanged = 0;
 
     reactiveContext.helpers({
-      room: () => { return Rooms.findOne($stateParams.roomId) }
+      room: () => {
+        trackLastChanged = new Date().getTime()
+        return Rooms.findOne($stateParams.roomId)
+      }
     })
 
     $scope.$on('youtube.player.ended', function ($event, player) {
@@ -29,11 +33,10 @@ class PlayerCtrl {
     });
 
     $scope.$on('youtube.player.ready', function($event, player) {
-      let d = new Date().getTime()//try moving this to track-changed
       Meteor.call("room.elapsedTime", $ctrl.room._id, (err, time) => {
         if(angular.isDefined(time)) {
-          let diff = (new Date().getTime() - d) / 1000;
-          player.seekTo((time / 1000) + (new Date().getTime() - d) / 1000);
+          let diff = (new Date().getTime() - trackLastChanged);
+          player.seekTo((time / 1000) + diff / 1000);
         } else {
           console.log(err);
         }
