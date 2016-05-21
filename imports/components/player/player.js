@@ -22,9 +22,11 @@ class PlayerCtrl {
     });
 
     $scope.$on('youtube.player.ready', function($event, player) {
+      let d = new Date().getTime()
       Meteor.call("room.elapsedTime", $ctrl.room._id, (err, time) => {
         if(angular.isDefined(time)) {
-          player.seekTo(time / 1000)
+          let diff = (new Date().getTime() - d) / 1000;
+          player.seekTo((time / 1000) + (new Date().getTime() - d) / 1000);
         } else {
           console.log(err);
         }

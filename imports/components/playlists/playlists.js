@@ -12,6 +12,7 @@ class PlaylistsCtrl {
     this.subscribe('playlists');
 
     this.helpers({
+      user: () => { return Meteor.user() },
       playlists() {
         const selector = {};
 

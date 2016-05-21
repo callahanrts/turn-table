@@ -10,6 +10,7 @@
     <div id="menu-btn" ng-hide="$ctrl.minimized">
       <div ng-hide="$ctrl.loggedIn()">
         <login-buttons></login-buttons>
+        <span class="fa fa-close hide-menu fa-hover" ng-click="$ctrl.toggleMinimized()"></span>
       </div>
       <div ng-show="$ctrl.loggedIn()">
         <div class="profile-name">

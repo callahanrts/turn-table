@@ -8,7 +8,7 @@
     </li>
   </ul>
 
-  <div id="actions">
+  <div id="actions" ng-show="$ctrl.user">
     <div class="col-sm-12">
       <button class="btn btn-primary btn-block" ng-click="$ctrl.joinQueue()" ng-hide="$ctrl.enqueued()">
         JOIN QUEUE

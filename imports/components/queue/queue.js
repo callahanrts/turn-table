@@ -7,8 +7,14 @@ import roomService from '../../services/room.js';
 class QueueCtrl {
 
   constructor($scope, $rootScope, roomService) {
+    $scope.viewModel(this);
     var $ctrl = this;
     this.roomService = roomService;
+
+    this.helpers({
+      user: () => { return Meteor.user() }
+    })
+
   }
 
   queue() {
