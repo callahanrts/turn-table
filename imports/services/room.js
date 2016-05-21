@@ -21,6 +21,7 @@ class roomService {
   joinRoom(room) {
     this.room = room;
     this.rootScope.$broadcast('track-changed', { room: room });
+    this.rootScope.$broadcast('room-joined', { room: room });
     if(!!room && room._id != this.room_id){
       Meteor.call("room.join", room._id);
     }

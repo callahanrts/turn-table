@@ -3,13 +3,18 @@ import angularMeteor from 'angular-meteor';
 import template from './mainMenu.html';
 
 import settingsService from '../../services/settings.js';
+import { Rooms } from '../../api/rooms.js';
 
 class MainMenuCtrl {
 
-  constructor(settingsService, $reactive, $scope) {
+  constructor(settingsService, $reactive, $scope, $stateParams) {
+    $scope.viewModel(this);
+    this.subscribe('rooms');
     let reactiveContext = $reactive(this).attach($scope);
+
     reactiveContext.helpers({
-      user: () => { return Meteor.user() }
+      user: () => { return Meteor.user() },
+      room: () => { return Rooms.findOne($stateParams.roomId) }
     })
 
     this.settingsService = settingsService;
@@ -19,7 +24,6 @@ class MainMenuCtrl {
   }
 
   toggleMinimized() {
-    console.log('toggle minimized')
     this.minimized = !this.minimized;
     this.settings.minimized = this.minimized;
     this.settingsService.set("mainMenu", this.settings)
@@ -33,11 +37,19 @@ class MainMenuCtrl {
     return { minimized: true };
   }
 
+  admin() {
+    return this.room && this.room.admins.indexOf(Meteor.userId()) != -1;
+  }
+
   changeName() {
     this.editName = true;
     setTimeout(() => {
       $("#edit-name").focus();
     })
+  }
+
+  saveRoomSettings() {
+    Meteor.call('room.updateSettings', this.room._id, this.room.settings)
   }
 
   saveName() {
@@ -59,7 +71,7 @@ class MainMenuCtrl {
 
 }
 
-MainMenuCtrl.$inject = [settingsService.name, '$reactive', '$scope'];
+MainMenuCtrl.$inject = [settingsService.name, '$reactive', '$scope', '$stateParams'];
 
 export default angular.module('mainMenu', [
   angularMeteor,

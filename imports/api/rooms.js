@@ -41,6 +41,7 @@ if (Meteor.isServer) {
       if(!!user) room.queue.push({ id: user._id, name: user.profile.name });
       room.queue = _.uniq(room.queue, false, (el) => { return el.id });
       if(updateQueue(room, userId))
+        if(!room.playing.id){ playNext(room._id); }
         console.log("added " + userId + " to queue");
     },
 
@@ -105,9 +106,9 @@ Meteor.methods({ 'rooms.insert' (room) {
     let room = Rooms.findOne(roomId);
     if(!room){ return }
     if(isAdmin(room.admins, Meteor.userId())){
-      if(settings.requeue){ room.settings.requeue = settings.requeue }
+      if(settings.hasOwnProperty("requeue")){ room.settings.requeue = settings.requeue }
       if(settings.maxTrackLength){ room.settings.maxTrackLength = settings.maxTrackLength }
-      Rooms.update(room._id, { $set: { settings: room.settings } })
+      let s = Rooms.update(room._id, { $set: { settings: room.settings } });
     }
   },
 
@@ -156,8 +157,12 @@ var nextUser = (room) => {
 var playNext = (roomId) => {
   let room = Rooms.findOne(roomId);
   if(isAdmin(room.admins, Meteor.userId()) || trackOver(room)) {
-    let user = nextUser(room);
-    if(user == null){ return }
+    if(!!room.playing.id){nextUser(room)}
+    let user = room.queue[0]
+    if(user == null){
+      updatePlaying(room, {});
+      return
+    }
 
     let track = nextTrack(user.id);
     if(!!track){
@@ -188,7 +193,7 @@ var isAdmin = (admins, userId) => {
 }
 
 var updateQueue = (room, userId) => {
-  let me = Meteor.users.findOne(Meteor.userId());
+  let me = Meteor.user();
   let user = Meteor.users.findOne(userId);
   if(room != undefined && me != undefined && user != undefined) {
     if(me._id === user._id || isAdmin(room.admins, me._id)) {

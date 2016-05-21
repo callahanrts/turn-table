@@ -2,9 +2,8 @@
   <div class="wrapper">
 
     <div>
-      <a href="javascript:void(0)" ng-click="$ctrl.toggleMinimized()" class="menu-toggle">
-        <span class="fa fa-bars" ng-show="$ctrl.minimized"></span>
-        <span class="fa fa-close" ng-hide="$ctrl.minimized"></span>
+      <a href="javascript:void(0)" ng-click="$ctrl.toggleMinimized()" ng-show="$ctrl.minimized" class="menu-toggle">
+        <span class="fa fa-bars"></span>
       </a>
     </div>
 
@@ -15,7 +14,9 @@
       <div ng-show="$ctrl.loggedIn()">
         <div class="profile-name">
           <span class="name" ng-hide="$ctrl.editName">
-            {{ $ctrl.user.profile.name }}<span class="fa fa-pencil edit-profile-name" ng-click="$ctrl.changeName()"></span>
+            {{ $ctrl.user.profile.name }}
+            <span class="fa fa-close hide-menu fa-hover" ng-click="$ctrl.toggleMinimized()"></span>
+            <span class="fa fa-pencil fa-hover edit-profile-name" ng-click="$ctrl.changeName()"></span>
           </span>
           <input id="edit-name" class="form-control" ng-model="$ctrl.user.profile.name"
                                                      ng-show="$ctrl.editName"
@@ -28,6 +29,22 @@
         </button>
       </div>
     </div>
+
+    <ul class="menu-items">
+      <li>
+        <a href="/" class="btn btn-block btn-primary">Change Venue</a>
+      </li>
+    </ul>
+
+    <ul class="menu-items" ng-if="$ctrl.admin()">
+      <li class="title">Room Options</li>
+    <li>
+      <div class="checkbox">
+        <label> <input type="checkbox" ng-model="$ctrl.room.settings.requeue" ng-change="$ctrl.saveRoomSettings()" /> Requeue DJ </label>
+      </div>
+    </li>
+    </ul>
+
 
   </div>
 </div>

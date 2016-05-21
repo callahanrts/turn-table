@@ -20,7 +20,6 @@ class QueueCtrl {
   }
 
   joinQueue() {
-    console.log('join queue')
     this.roomService.joinQueue()
   }
 
