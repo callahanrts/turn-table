@@ -1,0 +1,83 @@
+<div id="playlist-editor">
+  <div class="row-fluid header">
+
+    <div class="col-sm-8">
+      <h4 class="clear-search" ng-show="$ctrl.hasSearchResults()">
+        <span class="icon glyphicon glyphicon-chevron-left"></span>
+        <span ng-click="$ctrl.clearSearch()">Back to {{ $ctrl.currentPlaylist.name }}</span>
+      </h4>
+      <h4 ng-hide="$ctrl.hasSearchResults()">
+        <span ng-hide="$ctrl.editTitle()">{{ $ctrl.currentPlaylist.name }}</span>
+        <span class="icon glyphicon glyphicon-pencil" ng-click="$ctrl.editTitle(true)" ng-hide="$ctrl.editTitle()"></span>
+        <input type="text" ng-show="$ctrl.editTitle()" ng-model="$ctrl.currentPlaylist.name" ng-blur="$ctrl.editTitle(false, true)" class="form-control" />
+      </h4>
+    </div>
+
+    <div class="col-sm-4" id="search">
+      <input type="text" ng-model="query" placeholder="Search" class="form-control" />
+    </div>
+
+  </div>
+
+  <div id="list" class="tracks" ng-if="$ctrl.display == 'list'">
+    <ul id="tracks" ng-model="$ctrl.currentPlaylist.tracks" ui-sortable="$ctrl.sortableOptions">
+      <li ng-repeat="track in $ctrl.currentPlaylist.tracks"
+          ng-if="!$ctrl.hasSearchResults()">
+        <img ng-src="{{ track.image }}">
+        <div class="title">{{ track.title }}</div>
+        <div class="actions">
+          <span class="glyphicon glyphicon-trash" ng-click="$ctrl.removeTrack(track)"></span>
+        </div>
+      </li>
+
+      <li ng-repeat="track in $ctrl.searchResults"
+          ng-class="{ selected: $ctrl.trackSelected(track) }"
+          ng-click="$ctrl.selectTrack(track)"
+          ng-if="$ctrl.hasSearchResults()">
+        <img ng-src="{{ track.image }}">
+        <div class="title">{{ track.title }}</div>
+      </li>
+    </ul>
+  </div>
+
+  <div id="grid" class="tracks" ng-if="$ctrl.display == 'grid'">
+    <ul id="tracks">
+      <li ng-repeat="track in $ctrl.currentPlaylist.tracks"
+          on-finish-render="$ctrl.createGrid($ctrl.currentPlaylist.tracks)"
+          ng-class="{ selected: $ctrl.trackSelected(track) }"
+          ng-click="$ctrl.selectTrack(track)"
+          ng-if="!$ctrl.hasSearchResults()">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <img ng-src="{{ track.image }}">
+            <div class="title">{{ track.title }}</div>
+          </div>
+        </div>
+      </li>
+
+      <li ng-repeat="track in $ctrl.searchResults"
+          on-finish-render="$ctrl.createGrid()"
+          ng-class="{ selected: $ctrl.trackSelected(track) }"
+          ng-click="$ctrl.selectTrack(track)"
+          ng-if="$ctrl.hasSearchResults()">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <img ng-src="{{ track.image }}">
+            <div class="title">{{ track.title }}</div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <!-- <div class="actions pull-left"> -->
+    <!--   <button type="button" class="btn btn-danger" ng-click="$ctrl.removeSelected($ctrl.currentPlaylist)" ng-show="$ctrl.hasSelectedTracks('saved')">Remove {{ $ctrl.selectedTracks.length }} Tracks</button> -->
+    <!-- </div> -->
+    <div class="actions pull-right">
+      <button type="button" class="btn btn-link" ng-click="$ctrl.close()">Close</button>
+      <!-- <button type="button" class="btn btn-primary" ng-click="$ctrl.savePlaylist($ctrl.currentPlaylist)" ng-hide="$ctrl.hasSelectedTracks()">Save Playlist</button> -->
+      <button type="button" class="btn btn-primary" ng-click="$ctrl.saveTracks($ctrl.currentPlaylist)" ng-show="$ctrl.hasSelectedTracks('searched')">Add {{ $ctrl.selectedTracks.length }} Tracks</button>
+    </div>
+  </div>
+</div>

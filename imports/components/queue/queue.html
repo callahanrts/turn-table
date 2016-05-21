@@ -1,0 +1,22 @@
+<div id="queue">
+  <ul ng-class="{ admin: $ctrl.admin() }">
+    <li ng-repeat="u in $ctrl.queue()" ng-class="{{ u.id }}">
+      <span>{{ u.name }}</span>
+      <span class="actions" ng-if="$ctrl.admin()">
+        <span class="fa fa-trash" ng-click="$ctrl.leaveQueue(u.id)"></span>
+      </span>
+    </li>
+  </ul>
+
+  <div id="actions">
+    <div class="col-sm-12">
+      <button class="btn btn-primary btn-block" ng-click="$ctrl.joinQueue()" ng-hide="$ctrl.enqueued()">
+        JOIN QUEUE
+      </button>
+      <button class="btn btn-danger btn-block" ng-click="$ctrl.leaveQueue()" ng-show="$ctrl.enqueued()">
+        LEAVE QUEUE
+      </button>
+    </div>
+  </div>
+
+</div>

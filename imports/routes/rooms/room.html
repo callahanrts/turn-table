@@ -1,0 +1,21 @@
+
+<div class="container-fluid" id="main-container" ng-show="$ctrl.room">
+  <main-menu></main-menu>
+
+  <div class="col-sm-9 main-col">
+    <playlist-editor></playlist-editor>
+    <div id="content-wrapper">
+      <div class="video-container">
+        <player></player>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-3 control-panel-wrapper">
+    <div class="pull-right" id="control-panel">
+      <control-panel></control-panel>
+    </div>
+  </div>
+
+  <search-modal></search-modal>
+</div>

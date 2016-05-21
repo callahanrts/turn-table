@@ -1,0 +1,31 @@
+<div id="playlists">
+  <ul>
+    <li ng-repeat="p in $ctrl.playlists" ng-click="$ctrl.editPlaylist(p)">
+      <table>
+        <tr>
+          <td class="icon" ng-class="{ active: !!p.active }" ng-click="$ctrl.playlistService.activate(p, $event)">
+            <span class="glyphicon glyphicon-ok-circle"></span>
+          </td>
+          <td>
+            <span>
+              <div class="title">{{ p.name }}</div>
+              <!-- <div class="description">{{ p.description }}</div> -->
+            </span>
+          </td>
+          <td class="icon" ng-click="$ctrl.playlistService.remove(p, $event)">
+            <span class="glyphicon glyphicon-trash"></span>
+          </td>
+        </tr>
+      </table>
+    </li>
+  </ul>
+
+  <div id="new">
+    <div class="col-sm-12">
+      <button class="btn btn-primary btn-block" ng-click="$ctrl.newPlaylist()">
+        NEW PLAYLIST
+      </button>
+    </div>
+  </div>
+
+</div>

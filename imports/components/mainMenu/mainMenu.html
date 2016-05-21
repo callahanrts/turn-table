@@ -1,0 +1,33 @@
+<div id="main-menu" ng-class="{ minimized: $ctrl.minimized }">
+  <div class="wrapper">
+
+    <div>
+      <a href="javascript:void(0)" ng-click="$ctrl.toggleMinimized()" class="menu-toggle">
+        <span class="fa fa-bars" ng-show="$ctrl.minimized"></span>
+        <span class="fa fa-close" ng-hide="$ctrl.minimized"></span>
+      </a>
+    </div>
+
+    <div id="menu-btn" ng-hide="$ctrl.minimized">
+      <div ng-hide="$ctrl.loggedIn()">
+        <login-buttons></login-buttons>
+      </div>
+      <div ng-show="$ctrl.loggedIn()">
+        <div class="profile-name">
+          <span class="name" ng-hide="$ctrl.editName">
+            {{ $ctrl.user.profile.name }}<span class="fa fa-pencil edit-profile-name" ng-click="$ctrl.changeName()"></span>
+          </span>
+          <input id="edit-name" class="form-control" ng-model="$ctrl.user.profile.name"
+                                                     ng-show="$ctrl.editName"
+                                                     ng-focus="$ctrl.selectAll($event)"
+                                                     ng-blur="$ctrl.saveName()">
+        </div>
+        <button class="btn btn-link logout" ng-click="$ctrl.logout()">
+          <span class="fa fa-sign-out"></span>
+          <span class="text">Logout</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

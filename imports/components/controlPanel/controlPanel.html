@@ -1,0 +1,18 @@
+<div class="dropdown">
+  <button class="btn btn-link btn-block dropdown-toggle" type="button" id="control-panes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <h1>{{ $ctrl.pane }}</h1>
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li ng-click="$ctrl.selectPane('queue')"><a href="#">Queue</a></li>
+    <li ng-click="$ctrl.selectPane('playlists')"><a href="#">Playlists</a></li>
+  </ul>
+</div>
+
+<div id="queue" ng-show="$ctrl.pane == 'queue'">
+  <queue></queue>
+</div>
+
+<div id="queue" ng-show="$ctrl.pane == 'playlists'">
+  <playlists></playlists>
+</div>

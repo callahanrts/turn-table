@@ -1,0 +1,81 @@
+$brand-primary: #2196f3;
+
+#playlists{
+  ul{
+    padding: 0;
+    list-style: none;
+  }
+  li {
+    cursor: pointer;
+    padding: 10px;
+    font-size: 1.1em;
+    table{ width: 100%;}
+    td{ vertical-align: top; }
+    &:hover{
+      background-color: #efefef;
+      .icon{ visibility: visible; }
+    }
+  }
+
+  .description{
+    font-size: 12px;
+  }
+
+  .icon{
+    &.active{ color: $brand-primary !important; visibility: visible; }
+    &:hover{ color: #666; }
+    cursor: pointer;
+    color: #ccc;
+    visibility: hidden;
+    padding: 1px 7px 2px 0;
+    width: 25px;
+  }
+
+  #new {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
+}
+
+#new-playlist-modal {
+  h4 {
+    .icon{
+      &:hover{ color: #666; }
+      font-size: 15px;
+      vertical-align: middle;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+    input{
+      width: 90%;
+      max-width: 350px;
+    }
+  }
+
+  .modal-body{
+    max-width: 350px;
+  }
+
+  .modal-dialog {
+    width: 90%;
+    height: 90%;
+  }
+
+  .modal-content {
+    height: 100%;
+  }
+
+  .modal-footer {
+    button {
+      margin: 0 5px;
+    }
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+  }
+
+}

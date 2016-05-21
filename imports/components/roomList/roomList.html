@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <div id="room-list">
+
+    <div class="form-group">
+      <label for="roomName">Venue Name</label>
+      <input id="roomName" type="text" class="form-control" ng-model="roomName">
+    </div>
+
+    <div class="form-group">
+      <button class="btn btn-primary form-control" ng-click="$ctrl.createRoom(roomName)">New Venue</button>
+    </div>
+
+    <ul>
+      <li ng-repeat="room in $ctrl.rooms" ng-click="$ctrl.enterRoom(room)">
+        <span>{{ room.name }}</span>
+        <span class="glyphicon glyphicon-trash remove" ng-click="$ctrl.removeRoom(room)"></span>
+      </li>
+    </ul>
+
+  </div>
+</div>

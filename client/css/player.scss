@@ -1,0 +1,18 @@
+
+#video-player {
+  overflow: auto;
+  max-width: 400px;
+  padding-top: 20px;
+  margin: 0 auto;
+  position: relative;
+  &.small{ max-width: 450px; }
+  &.medium{ max-width: 549px; }
+  &.large{ max-width: 650px; }
+
+  &:hover{ #sizes{ display: block; } }
+  #sizes {
+    display: none;
+    button { margin: 5px 2px; }
+  }
+
+}

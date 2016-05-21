@@ -1,0 +1,22 @@
+#room-list {
+  padding: 20px;
+  max-width: 300px;
+
+  ul {
+    padding: 0;
+    list-style: none;
+
+    li {
+      cursor: pointer;
+      &:hover{
+        background-color: #EFEFEF;
+        .remove{ display: block; }
+      }
+      > span{ vertical-align: middle; }
+      padding: 5px 10px;
+      .remove { display: none; float: right; padding-top: 4px;}
+    }
+
+  }
+
+}
