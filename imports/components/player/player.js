@@ -4,11 +4,14 @@ import angularMeteor from 'angular-meteor';
 import template from './player.html';
 import roomService from '../../services/room.js';
 
+import { Rooms } from '../../api/rooms.js';
+
 class PlayerCtrl {
 
   // https://www.youtube.com/watch?v=AfEpGGErzpM
-  constructor($scope, $rootScope, roomService) {
+  constructor($scope, $rootScope, roomService, $stateParams, $reactive) {
     $scope.viewModel(this);
+    let reactiveContext = $reactive(this).attach($scope);
     let $ctrl = this;
     this.size = "medium";
     this.room = {};
@@ -17,12 +20,16 @@ class PlayerCtrl {
       autoplay: 1
     };
 
+    reactiveContext.helpers({
+      room: () => { return Rooms.findOne($stateParams.roomId) }
+    })
+
     $scope.$on('youtube.player.ended', function ($event, player) {
       Meteor.call("room.playNext", $ctrl.room._id)
     });
 
     $scope.$on('youtube.player.ready', function($event, player) {
-      let d = new Date().getTime()
+      let d = new Date().getTime()//try moving this to track-changed
       Meteor.call("room.elapsedTime", $ctrl.room._id, (err, time) => {
         if(angular.isDefined(time)) {
           let diff = (new Date().getTime() - d) / 1000;
@@ -33,10 +40,6 @@ class PlayerCtrl {
       })
     });
 
-    $rootScope.$on('track-changed', (event, args) => {
-      $ctrl.room = args.room || {};
-    })
-
   }
 
   changeSize(size) {
@@ -45,7 +48,7 @@ class PlayerCtrl {
 
 }
 
-PlayerCtrl.$inject = ['$scope', '$rootScope', roomService.name];
+PlayerCtrl.$inject = ['$scope', '$rootScope', roomService.name, '$stateParams', '$reactive'];
 
 export default angular.module('player', [
   angularMeteor,
