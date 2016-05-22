@@ -8,13 +8,12 @@ import { Rooms } from '../../api/rooms.js';
 
 class PlayerCtrl {
 
-  // https://www.youtube.com/watch?v=AfEpGGErzpM
   constructor($scope, $rootScope, roomService, $stateParams, $reactive) {
     $scope.viewModel(this);
+    this.subscribe('rooms');
     let reactiveContext = $reactive(this).attach($scope);
     let $ctrl = this;
     this.size = "medium";
-    this.room = {};
     this.playerVars = {
       //controls: 0,
       autoplay: 1
@@ -23,8 +22,11 @@ class PlayerCtrl {
 
     reactiveContext.helpers({
       room: () => {
-        trackLastChanged = new Date().getTime()
-        return Rooms.findOne($stateParams.roomId)
+        console.log('update room')
+        trackLastChanged = new Date().getTime();
+        let room = Rooms.findOne($stateParams.roomId);
+        console.log(room);
+        return room;
       }
     })
 
@@ -45,8 +47,20 @@ class PlayerCtrl {
 
   }
 
-  changeSize(size) {
-    this.size = size;
+  upvote() {
+    Meteor.call("room.upvote", this.room._id);
+  }
+
+  upvoted() {
+    return this.room && this.room.playing.upvoted.indexOf(Meteor.userId()) != -1
+  }
+
+  downvote() {
+    Meteor.call("room.downvote", this.room._id);
+  }
+
+  downvoted() {
+    return this.room && this.room.playing.downvoted.indexOf(Meteor.userId()) != -1
   }
 
 }

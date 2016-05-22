@@ -35,7 +35,7 @@ if (Meteor.isServer) {
           Rooms.update(room._id, { $set: { queue: without(room.queue, user._id) } });
           console.log("removing " + user._id)
         }
-      }, 60 * 1000);
+      }, 60000);
     }
   });
 

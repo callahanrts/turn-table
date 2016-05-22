@@ -7,9 +7,8 @@ import { Rooms } from '../../api/rooms.js';
 
 class MainMenuCtrl {
 
-  constructor(settingsService, $reactive, $scope, $stateParams, $meteor) {
+  constructor(settingsService, $reactive, $scope, $stateParams) {
     $scope.viewModel(this);
-    this.meteor = $meteor;
     this.subscribe('rooms');
     let reactiveContext = $reactive(this).attach($scope);
 
@@ -72,7 +71,7 @@ class MainMenuCtrl {
 
 }
 
-MainMenuCtrl.$inject = [settingsService.name, '$reactive', '$scope', '$stateParams', '$meteor'];
+MainMenuCtrl.$inject = [settingsService.name, '$reactive', '$scope', '$stateParams'];
 
 export default angular.module('mainMenu', [
   angularMeteor,

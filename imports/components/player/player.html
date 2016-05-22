@@ -5,10 +5,23 @@
       <youtube-video video-id="$ctrl.room.playing.id" player-vars="$ctrl.playerVars" class="embed-responsive-item"></youtube-video>
     </div>
 
-    <div id="sizes" class="pull-right">
-      <button class="btn btn-sm btn-primary" ng-click="$ctrl.changeSize('small')">small</button>
-      <button class="btn btn-sm btn-primary" ng-click="$ctrl.changeSize('medium')">medium</button>
-      <button class="btn btn-sm btn-primary" ng-click="$ctrl.changeSize('large')">large</button>
+    <div id="respond" ng-if="!!$ctrl.room.playing.id">
+      <div class="col-sm-5 left">
+        <button class="btn btn-danger btn-block" ng-click="$ctrl.downvote()" ng-disabled="$ctrl.downvoted()">
+          <span class="fa fa-thumbs-down"></span>
+        </button>
+      </div>
+
+      <div class="col-sm-2 scores">
+        <span class="down pull-left">{{ $ctrl.room.playing.downvoted.length || 0 }}</span>
+        <span class="up pull-right">{{ $ctrl.room.playing.upvoted.length || 0 }}</span>
+      </div>
+
+      <div class="col-sm-5 right">
+        <button class="btn btn-success btn-block" ng-click="$ctrl.upvote()" ng-disabled="$ctrl.upvoted()">
+          <span class="fa fa-thumbs-up"></span>
+        </button>
+      </div>
     </div>
 
   </div>

@@ -4,15 +4,19 @@ import template from './queue.html';
 
 import roomService from '../../services/room.js';
 
+import { Rooms } from '../../api/rooms.js';
+
 class QueueCtrl {
 
-  constructor($scope, $rootScope, roomService) {
+  constructor($scope, $rootScope, roomService, $stateParams, $reactive) {
     $scope.viewModel(this);
+    let reactiveContext = $reactive(this).attach($scope);
     var $ctrl = this;
     this.roomService = roomService;
 
-    this.helpers({
-      user: () => { return Meteor.user() }
+    reactiveContext.helpers({
+      user: () => { return Meteor.user() },
+      room: () => { return Rooms.findOne($stateParams.roomId) }
     })
 
   }
@@ -33,6 +37,10 @@ class QueueCtrl {
     this.roomService.leaveQueue(userId)
   }
 
+  skip() {
+    Meteor.call("room.playNext", this.room._id)
+  }
+
   admin() {
     let room = this.roomService.getRoom();
     return room && room.admins.indexOf(Meteor.userId()) != -1;
@@ -40,7 +48,7 @@ class QueueCtrl {
 
 }
 
-QueueCtrl.$inject = ['$scope', '$rootScope', roomService.name];
+QueueCtrl.$inject = ['$scope', '$rootScope', roomService.name, '$stateParams', '$reactive'];
 
 export default angular.module('queue', [
   angularMeteor,

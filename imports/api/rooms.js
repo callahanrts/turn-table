@@ -107,9 +107,26 @@ Meteor.methods({ 'rooms.insert' (room) {
     if(!room){ return }
     if(isAdmin(room.admins, Meteor.userId())){
       if(settings.hasOwnProperty("requeue")){ room.settings.requeue = settings.requeue }
+      if(settings.hasOwnProperty("size")){ room.settings.size = settings.size }
       if(settings.maxTrackLength){ room.settings.maxTrackLength = settings.maxTrackLength }
       let s = Rooms.update(room._id, { $set: { settings: room.settings } });
     }
+  },
+
+  'room.upvote' (roomId) {
+    let room = Rooms.findOne(roomId);
+    room.playing.upvoted = _.without(room.playing.upvoted, Meteor.userId())
+    room.playing.downvoted = _.without(room.playing.downvoted, Meteor.userId())
+    room.playing.upvoted.push(Meteor.userId());
+    Rooms.update(room._id, { $set: { playing: room.playing } });
+  },
+
+  'room.downvote' (roomId) {
+    let room = Rooms.findOne(roomId);
+    room.playing.upvoted = _.without(room.playing.upvoted, Meteor.userId())
+    room.playing.downvoted = _.without(room.playing.downvoted, Meteor.userId())
+    room.playing.downvoted.push(Meteor.userId());
+    Rooms.update(room._id, { $set: { playing: room.playing } });
   },
 
   'room.givePrivilege' (userId, role) {
@@ -122,10 +139,10 @@ Meteor.methods({ 'rooms.insert' (room) {
 
 });
 
-var updatePlaying = (room, track) => {
+var updatePlaying = (room, track, user) => {
   Rooms.update(room._id, { $set: {
     queue: room.queue,
-    playing: _.extend(track, { started: new Date().getTime() }) || {}
+    playing: _.extend(track, { started: new Date().getTime(), upvoted: [], downvoted: [], user: user }) || {}
   } });
 }
 
@@ -166,7 +183,7 @@ var playNext = (roomId) => {
 
     let track = nextTrack(user.id);
     if(!!track){
-      updatePlaying(room, track);
+      updatePlaying(room, track, user);
     } else {
       Rooms.update(room._id, { $set: { queue: without(room.queue, user.id) } });
       playNext(room._id);
@@ -185,6 +202,7 @@ var defaultSettings = () => {
   return {
     requeue: false,
     maxTrackLength: 10,
+    size: "medium",
   }
 }
 

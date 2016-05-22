@@ -9,10 +9,23 @@
   &.medium{ max-width: 549px; }
   &.large{ max-width: 650px; }
 
-  &:hover{ #sizes{ display: block; } }
-  #sizes {
-    display: none;
-    button { margin: 5px 2px; }
-  }
+  #respond{
+    padding-top: 5px;
+    > div {
+      padding: 0;
+      &.left{ padding-right: 5px;}
+      &.right{ padding-left: 5px;}
+    }
+    .scores {
+      height: 100%;
+      text-align: center;
+      font-size: 18px;
+      span:first-child{ padding-left: 10px; }
+      span:last-child{ padding-right: 10px; }
+      .up{ color: #4caf50; }
+      .down{ color: #e51c23; }
 
+    }
+
+  }
 }

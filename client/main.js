@@ -18,7 +18,7 @@ import room from '../imports/routes/rooms/room';
 import rooms from '../imports/routes/rooms/list';
 import index from '../imports/routes/index/index';
 
-import { Rooms } from '../imports//api/rooms.js';
+import { Rooms } from '../imports/api/rooms.js';
 
 import '../imports/startup/accounts-config.js';
 
