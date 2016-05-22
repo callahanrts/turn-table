@@ -22,11 +22,8 @@ class PlayerCtrl {
 
     reactiveContext.helpers({
       room: () => {
-        console.log('update room')
         trackLastChanged = new Date().getTime();
-        let room = Rooms.findOne($stateParams.roomId);
-        console.log(room);
-        return room;
+        return Rooms.findOne($stateParams.roomId);
       }
     })
 

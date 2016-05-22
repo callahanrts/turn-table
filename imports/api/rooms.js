@@ -25,6 +25,7 @@ if (Meteor.isServer) {
       //   ✓ If a user does not have an active playlist, skip them.
       //   ✓ If the user's active playlist does not have a track, skip them.
       //   ✓ If there is no one in the queue, save empty queue and return
+      scoreTrack(roomId);
       playNext(roomId);
     },
 
@@ -138,6 +139,16 @@ Meteor.methods({ 'rooms.insert' (room) {
   },
 
 });
+
+// Add up the upvotes a user got and add that to the user's score
+var scoreTrack = (roomId) => {
+  let room = Rooms.findOne(roomId);
+  let user = Meteor.users.findOne(room.playing.user.id);
+  if(!!user) {
+    user.profile.score = (user.profile.score || 0) + room.playing.upvoted.length;
+    Meteor.users.update(Meteor.userId(), {$set: {"profile.score": user.profile.score }});
+  }
+}
 
 var updatePlaying = (room, track, user) => {
   Rooms.update(room._id, { $set: {
