@@ -37,10 +37,6 @@ class QueueCtrl {
     this.roomService.leaveQueue(userId)
   }
 
-  skip() {
-    Meteor.call("room.playNext", this.room._id)
-  }
-
   admin() {
     let room = this.roomService.getRoom();
     return room && room.admins.indexOf(Meteor.userId()) != -1;

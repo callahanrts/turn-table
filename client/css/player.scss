@@ -2,12 +2,18 @@
 #video-player {
   overflow: auto;
   max-width: 400px;
-  padding-top: 20px;
   margin: 0 auto;
   position: relative;
   &.small{ max-width: 450px; }
   &.medium{ max-width: 549px; }
   &.large{ max-width: 650px; }
+
+  .info{ padding: 5px 0; }
+  .skip {
+    span{ vertical-align: middle; margin-left: 7px; }
+    &:hover{ color: #999; }
+    cursor: pointer;
+  }
 
   #respond{
     padding-top: 5px;

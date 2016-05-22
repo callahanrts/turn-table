@@ -15,7 +15,11 @@ class PlayerCtrl {
     let $ctrl = this;
     this.size = "medium";
     this.playerVars = {
-      //controls: 0,
+      showinfo: 0,
+      rel: 0,
+      fs: 0,
+      enablejsapi: 1,
+      controls: 0,
       autoplay: 1
     };
     let trackLastChanged = 0;
@@ -23,7 +27,9 @@ class PlayerCtrl {
     reactiveContext.helpers({
       room: () => {
         trackLastChanged = new Date().getTime();
-        return Rooms.findOne($stateParams.roomId);
+        let room = Rooms.findOne($stateParams.roomId);
+        console.log(room)
+        return  room
       }
     })
 
@@ -58,6 +64,18 @@ class PlayerCtrl {
 
   downvoted() {
     return this.room && this.room.playing.downvoted.indexOf(Meteor.userId()) != -1
+  }
+
+  skip() {
+    Meteor.call("room.playNext", this.room._id)
+  }
+
+  currentlyPlaying(){
+    return this.room && this.room.playing.user._id == Meteor.userId();
+  }
+
+  admin(){
+    return this.room && this.room.admins.indexOf(Meteor.userId()) != -1
   }
 
 }

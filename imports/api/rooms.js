@@ -25,7 +25,6 @@ if (Meteor.isServer) {
       //   ✓ If a user does not have an active playlist, skip them.
       //   ✓ If the user's active playlist does not have a track, skip them.
       //   ✓ If there is no one in the queue, save empty queue and return
-      scoreTrack(roomId);
       playNext(roomId);
     },
 
@@ -141,19 +140,21 @@ Meteor.methods({ 'rooms.insert' (room) {
 });
 
 // Add up the upvotes a user got and add that to the user's score
-var scoreTrack = (roomId) => {
-  let room = Rooms.findOne(roomId);
-  let user = Meteor.users.findOne(room.playing.user.id);
-  if(!!user) {
+var scoreTrack = (room) => {
+  let user = Meteor.users.findOne(room.playing.user._id);
+  if(!!user && !!room.playing) {
+    console.log(user.profile.name, user.profile.score, room.playing.upvoted.length)
     user.profile.score = (user.profile.score || 0) + room.playing.upvoted.length;
-    Meteor.users.update(Meteor.userId(), {$set: {"profile.score": user.profile.score }});
+    Meteor.users.update(user._id, {$set: {"profile.score": user.profile.score }});
   }
 }
 
 var updatePlaying = (room, track, user) => {
+  let u = _.pick(Meteor.users.findOne(user.id), '_id', 'profile');
+  scoreTrack(room);
   Rooms.update(room._id, { $set: {
     queue: room.queue,
-    playing: _.extend(track, { started: new Date().getTime(), upvoted: [], downvoted: [], user: user }) || {}
+    playing: _.extend(track, { started: new Date().getTime(), upvoted: [], downvoted: [], user: u }) || {}
   } });
 }
 
@@ -184,9 +185,8 @@ var nextUser = (room) => {
 
 var playNext = (roomId) => {
   let room = Rooms.findOne(roomId);
-  if(isAdmin(room.admins, Meteor.userId()) || trackOver(room)) {
-    if(!!room.playing.id){nextUser(room)}
-    let user = room.queue[0]
+  if(isAdmin(room.admins, Meteor.userId()) || trackOver(room) || room.playing.user._id == Meteor.userId()) {
+    let user = nextUser(room);
     if(user == null){
       updatePlaying(room, {});
       return

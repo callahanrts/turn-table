@@ -1,6 +1,14 @@
 <header>
 
   <div id="video-player" ng-class="$ctrl.size">
+    <div class="info">
+      <span>{{ $ctrl.room.playing.user.profile.name }} - {{ $ctrl.room.playing.user.profile.score }}</span>
+      <span class="pull-right skip" ng-show="$ctrl.admin() || $ctrl.currentlyPlaying()" ng-click="$ctrl.skip()">
+        skip track
+        <span class="fa fa-share"></span>
+      </span>
+    </div>
+
     <div class="embed-responsive embed-responsive-16by9">
       <youtube-video video-id="$ctrl.room.playing.id" player-vars="$ctrl.playerVars" class="embed-responsive-item"></youtube-video>
     </div>
