@@ -13,13 +13,13 @@ class PlayerCtrl {
     this.subscribe('rooms');
     let reactiveContext = $reactive(this).attach($scope);
     let $ctrl = this;
-    this.size = "medium";
+    this.size = "small";
     this.playerVars = {
       showinfo: 0,
       rel: 0,
       fs: 0,
       enablejsapi: 1,
-      controls: 0,
+      //controls: 0,
       autoplay: 1
     };
     let trackLastChanged = 0;
@@ -48,6 +48,10 @@ class PlayerCtrl {
       })
     });
 
+  }
+
+  djAvatar() {
+    return "images/avatars/djing/" + this.room.playing.user.profile.avatar + ".gif";
   }
 
   upvote() {

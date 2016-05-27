@@ -2,6 +2,13 @@ body, html {
   margin: 0;
   height: 100%;
 }
+.main-col{
+  background: url('/images/backgrounds/original.png');
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #000;
+}
 
 #main-container {
   padding: 0;

@@ -98,6 +98,10 @@ Meteor.methods({ 'rooms.insert' (room) {
 
   'room.join' (roomId) {
     check(roomId, String);
+    if(!Meteor.user().profile || !Meteor.user().profile.avatar) Meteor.call("user.updateAvatar", "classic08");
+    if(!Meteor.user().profile || !Meteor.user().profile.name){
+      Meteor.call("user.updateName", Meteor.user().username);
+    }
     let a = Meteor.users.update(Meteor.userId(), {$set: {"status.currentRoom": roomId }} );
     console.log((a == 1 ? "successfully joined " : "failed to join ") + roomId);
   },

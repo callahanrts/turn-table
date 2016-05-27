@@ -12,14 +12,21 @@ class RoomCtrl {
   constructor($scope, $stateParams, roomService) {
     $scope.viewModel(this);
     this.subscribe('rooms');
+    let $ctrl = this;
 
     this.helpers({
       room() {
-        let room = Rooms.findOne($stateParams.roomId);
-        roomService.joinRoom(room);
-        return room;
+        $ctrl.room = Rooms.findOne($stateParams.roomId);
+        return $ctrl.room;
       }
     });
+
+    let i = setInterval(() => {
+      if(!!$ctrl.room) {
+        clearInterval(i);
+        roomService.joinRoom($ctrl.room);
+      }
+    }, 100)
 
   }
 

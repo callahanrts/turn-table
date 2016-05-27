@@ -48,3 +48,15 @@ if (Meteor.isServer) {
   }
 
 }
+
+Meteor.methods({
+  'user.updateAvatar' (avatar) {
+    Meteor.users.update(Meteor.userId(), {$set: {"profile.avatar": avatar}});
+  },
+
+  'user.updateName' (name) {
+    Meteor.users.update(Meteor.userId(), {$set: {"profile.name": name}})
+  }
+
+});
+
