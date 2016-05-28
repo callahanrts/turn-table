@@ -3,48 +3,48 @@ import angularMeteor from 'angular-meteor';
 import uiRouter from 'angular-ui-router';
 
 // Components
-// import player from         '../imports/components/player/player';
-// import cpanel from         '../imports/components/controlPanel/controlPanel';
-// import playlists from      '../imports/components/playlists/playlists';
-// import queue from          '../imports/components/queue/queue';
-// import searchModal from    '../imports/components/searchModal/searchModal';
-// import playlistEditor from '../imports/components/playlistEditor/playlistEditor';
-// import roomList from       '../imports/components/roomList/roomList';
-// import mainMenu from       '../imports/components/mainMenu/mainMenu';
+import player from         '../imports/components/player/player';
+import cpanel from         '../imports/components/controlPanel/controlPanel';
+import playlists from      '../imports/components/playlists/playlists';
+import queue from          '../imports/components/queue/queue';
+import searchModal from    '../imports/components/searchModal/searchModal';
+import playlistEditor from '../imports/components/playlistEditor/playlistEditor';
+import roomList from       '../imports/components/roomList/roomList';
+import mainMenu from       '../imports/components/mainMenu/mainMenu';
 
 // Routes
-// import room from '../imports/routes/rooms/room';
-// import rooms from '../imports/routes/rooms/list';
-// import index from '../imports/routes/index/index';
+import room from '../imports/routes/rooms/room';
+import rooms from '../imports/routes/rooms/list';
+import index from '../imports/routes/index/index';
 
-// import { Rooms } from '../imports/api/rooms.js';
+import { Rooms } from '../imports/api/rooms.js';
 
-// import '../imports/startup/accounts-config.js';
+import '../imports/startup/accounts-config.js';
 
-// import ytembed  from 'angular-youtube-embed';
-// import sortable from 'angular-ui-sortable';
+import ytembed  from 'angular-youtube-embed';
+import sortable from 'angular-ui-sortable';
 
 angular.module('turn-table', [
   angularMeteor,
   uiRouter,
 
-  // ytembed,
+  ytembed,
 
-  // player.name,
-  // cpanel.name,
-  // playlists.name,
-  // searchModal.name,
-  // playlistEditor.name,
-  // roomList.name,
-  // queue.name,
-  // mainMenu.name,
+  player.name,
+  cpanel.name,
+  playlists.name,
+  searchModal.name,
+  playlistEditor.name,
+  roomList.name,
+  queue.name,
+  mainMenu.name,
 
-  // room.name,
-  // rooms.name,
-  // index.name,
+  room.name,
+  rooms.name,
+  index.name,
 
-  // 'accounts.ui',
-  // 'ui.sortable',
+  'accounts.ui',
+  'ui.sortable',
 ])
   .config(config);
 
