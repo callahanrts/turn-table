@@ -3,7 +3,6 @@ import angularMeteor from 'angular-meteor';
 import uiRouter from 'angular-ui-router';
 
 // Components
-// import todosList from      '../imports/components/todosList/todosList';
 // import player from         '../imports/components/player/player';
 // import cpanel from         '../imports/components/controlPanel/controlPanel';
 // import playlists from      '../imports/components/playlists/playlists';
@@ -26,8 +25,8 @@ import uiRouter from 'angular-ui-router';
 // import sortable from 'angular-ui-sortable';
 
 angular.module('turn-table', [
-  // angularMeteor,
-  // uiRouter,
+  angularMeteor,
+  uiRouter,
 
   // ytembed,
 
@@ -47,36 +46,36 @@ angular.module('turn-table', [
   // 'accounts.ui',
   // 'ui.sortable',
 ])
-  // .config(config);
+  .config(config);
 
-// function config($locationProvider, $urlRouterProvider, $stateProvider) {
-//   'ngInject';
+function config($locationProvider, $urlRouterProvider, $stateProvider) {
+  'ngInject';
 
-//   $locationProvider.html5Mode(true);
+  $locationProvider.html5Mode(true);
 
-//   $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/');
 
-//   $stateProvider
-//     .state('rooms', {
-//       url: '/',
-//       template: '<rooms></rooms>'
-//     })
-//     .state('room', {
-//       url: '/venues/:roomId',
-//       template: '<room></room>'
-//     })
-//     .state('index', {
-//       url: '/index',
-//       template: '<index></index>'
-//     });
-// }
+  $stateProvider
+    .state('rooms', {
+      url: '/',
+      template: '<rooms></rooms>'
+    })
+    .state('room', {
+      url: '/venues/:roomId',
+      template: '<room></room>'
+    })
+    .state('index', {
+      url: '/index',
+      template: '<index></index>'
+    });
+}
 
-// function onReady() {
-//   angular.bootstrap(document, ['turn-table']);
-// }
+function onReady() {
+  angular.bootstrap(document, ['turn-table']);
+}
 
-// if (Meteor.isCordova) {
-//   angular.element(document).on('deviceready', onReady);
-// } else {
-//   angular.element(document).ready(onReady);
-// }
+if (Meteor.isCordova) {
+  angular.element(document).on('deviceready', onReady);
+} else {
+  angular.element(document).ready(onReady);
+}
