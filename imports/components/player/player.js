@@ -64,8 +64,8 @@ class PlayerCtrl {
     Meteor.call("room.upvote", this.room._id);
   }
 
-  upvoted() {
-    return this.room && this.room.playing.upvoted.indexOf(Meteor.userId()) != -1
+  upvoted(userId) {
+    return this.room && this.room.playing.upvoted.indexOf(userId || Meteor.userId()) != -1
   }
 
   downvote() {
