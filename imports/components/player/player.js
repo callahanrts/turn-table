@@ -6,6 +6,11 @@ import roomService from '../../services/room.js';
 
 import { Rooms } from '../../api/rooms.js';
 
+const MAX_AVATAR_HEIGHT=120;
+const MIN_AVATAR_HEIGHT=40;
+const MAX_Y_POS=40;
+const MAX_WIDTH=450;
+
 class PlayerCtrl {
 
   constructor($scope, $rootScope, roomService, $stateParams, $reactive) {
@@ -14,6 +19,7 @@ class PlayerCtrl {
     let reactiveContext = $reactive(this).attach($scope);
     let $ctrl = this;
     this.size = "small";
+    this.positions = [];
     this.playerVars = {
       showinfo: 0,
       rel: 0,
@@ -28,7 +34,7 @@ class PlayerCtrl {
       room: () => {
         trackLastChanged = new Date().getTime();
         let room = Rooms.findOne($stateParams.roomId);
-        console.log(room)
+        if(!!room) this.placeAvatars(room.audience);
         return  room
       }
     })
@@ -80,6 +86,34 @@ class PlayerCtrl {
 
   admin(){
     return this.room && this.room.admins.indexOf(Meteor.userId()) != -1
+  }
+
+  placeAvatars(roomAudience) {
+    _.each(roomAudience, (user) => {
+      let found = _.findWhere(this.positions, { _id: user._id });
+      if(!found) { this.position(user._id); }
+    });
+
+    setTimeout(() => {
+      _.each(this.positions, (pos) => {
+        $("."+pos._id).css(pos.css);
+      })
+    }, 0)
+
+  }
+
+  position(userId) {
+    let r = parseInt(Math.random() * MAX_Y_POS);
+    let height = MIN_AVATAR_HEIGHT + (r / MAX_Y_POS) * (MAX_AVATAR_HEIGHT - MIN_AVATAR_HEIGHT);
+    let left = parseInt(Math.random() * MAX_WIDTH);
+    let css = {
+      "top": r,
+      "height": height,
+      "left": left,
+      "z-index": r + 1,
+      "visibility": "visible"
+    };
+    this.positions.push({ _id: userId, css: css })
   }
 
 }

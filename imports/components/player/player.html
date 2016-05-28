@@ -35,10 +35,13 @@
   </div>
 
   <div id="dj-playing">
-    <img src="images/avatars/djing/{{$ctrl.room.playing.user.profile.avatar}}.gif" />
+    <img src="https://s3-us-west-1.amazonaws.com/plugdj-avatars/djing/{{$ctrl.room.playing.user.profile.avatar}}.gif" />
   </div>
 
-  <div id="floor" ng-repeat="dj in $ctrl.room.audience">
+  <div id="floor">
+    <div class="floor-wrapper">
+      <img src="https://s3-us-west-1.amazonaws.com/plugdj-avatars/standing/{{user.profile.avatar}}.gif" ng-repeat="user in $ctrl.room.audience" class="audience" ng-class="user._id" />
+    </div>
   </div>
 
 </header>

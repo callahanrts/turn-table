@@ -62,7 +62,7 @@ if (Meteor.isServer) {
 
 var without = (array, id) => {
   return _.compact(array.map((el) => {
-    return el.id == id ? null : el;
+    return (el.id == id) || (el._id == id) ? null : el;
   }))
 }
 
@@ -101,6 +101,13 @@ Meteor.methods({ 'rooms.insert' (room) {
     if(!Meteor.user().profile || !Meteor.user().profile.avatar) Meteor.call("user.updateAvatar", "classic08");
     if(!Meteor.user().profile || !Meteor.user().profile.name){
       Meteor.call("user.updateName", Meteor.user().username);
+    }
+    let room = Rooms.findOne(roomId);
+    let u = _.pick(Meteor.user(), "_id", "profile");
+    if(!!room && room.playing.user._id != u._id){
+      room.audience.push(u);
+      room.audience = _.uniq(room.audience, false, (el) => { return el._id });
+      Rooms.update(room._id, { $set: { audience: room.audience } });
     }
     let a = Meteor.users.update(Meteor.userId(), {$set: {"status.currentRoom": roomId }} );
     console.log((a == 1 ? "successfully joined " : "failed to join ") + roomId);
@@ -145,6 +152,7 @@ Meteor.methods({ 'rooms.insert' (room) {
 
 // Add up the upvotes a user got and add that to the user's score
 var scoreTrack = (room) => {
+  if(!room.playing.user) return
   let user = Meteor.users.findOne(room.playing.user._id);
   if(!!user && !!room.playing) {
     console.log(user.profile.name, user.profile.score, room.playing.upvoted.length)
@@ -156,8 +164,13 @@ var scoreTrack = (room) => {
 var updatePlaying = (room, track, user) => {
   let u = _.pick(Meteor.users.findOne(user.id), '_id', 'profile');
   scoreTrack(room);
+  if(room.playing && room.playing.user) {
+    // Add playing user back to audience
+    room.audience.push(_.pick(room.playing.user, "_id", "profile"));
+  }
   Rooms.update(room._id, { $set: {
     queue: room.queue,
+    audience: without(room.audience, u._id),
     playing: _.extend(track, { started: new Date().getTime(), upvoted: [], downvoted: [], user: u }) || {}
   } });
 }

@@ -22,24 +22,23 @@ class QueueCtrl {
   }
 
   queue() {
-    return this.roomService.getQueue();
+    return !!this.room ? this.room.queue : [];
   }
 
   enqueued() {
-    return this.roomService.enqueued()
+    return !!this.room && !!_.findWhere(this.room.queue, { id: Meteor.userId() })
   }
 
   joinQueue() {
-    this.roomService.joinQueue()
+    Meteor.call("room.addToQueue", this.room._id, Meteor.userId());
   }
 
   leaveQueue(userId) {
-    this.roomService.leaveQueue(userId)
+    Meteor.call("room.removeFromQueue", this.room._id, userId || Meteor.userId());
   }
 
   admin() {
-    let room = this.roomService.getRoom();
-    return room && room.admins.indexOf(Meteor.userId()) != -1;
+    return this.room && this.room.admins.indexOf(Meteor.userId()) != -1;
   }
 
 }
