@@ -5,6 +5,7 @@ import template from './queue.html';
 import roomService from '../../services/room.js';
 
 import { Rooms } from '../../api/rooms.js';
+import { Playlists } from '../../api/playlists.js';
 
 class QueueCtrl {
 
@@ -16,7 +17,8 @@ class QueueCtrl {
 
     reactiveContext.helpers({
       user: () => { return Meteor.user() },
-      room: () => { return Rooms.findOne($stateParams.roomId) }
+      hasPlaylists: () => { return Playlists.find().fetch().length > 0 },
+      room: () => { return Rooms.findOne($stateParams.roomId) },
     })
 
   }

@@ -29,10 +29,6 @@ class MainMenuCtrl {
     this.settingsService.set("mainMenu", this.settings)
   }
 
-  myAccount() {
-    console.log('my account')
-  }
-
   defaultSettings() {
     return { minimized: true };
   }

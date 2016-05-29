@@ -34,6 +34,7 @@ class PlayerCtrl {
       room: () => {
         trackLastChanged = new Date().getTime();
         let room = Rooms.findOne($stateParams.roomId);
+        console.log(room);
         if(!!room) this.placeAvatars(room.audience);
         return  room
       }
@@ -65,7 +66,7 @@ class PlayerCtrl {
   }
 
   upvoted(userId) {
-    return this.room && this.room.playing.upvoted.indexOf(userId || Meteor.userId()) != -1
+    return this.room && this.room.playing.upvoted && this.room.playing.upvoted.indexOf(userId || Meteor.userId()) != -1
   }
 
   downvote() {
@@ -81,7 +82,11 @@ class PlayerCtrl {
   }
 
   currentlyPlaying(){
-    return this.room && this.room.playing.user._id == Meteor.userId();
+    return this.playing() && this.room.playing.user._id == Meteor.userId();
+  }
+
+  playing() {
+    return this.room && this.room.playing.user
   }
 
   admin(){

@@ -1,34 +1,46 @@
 $brand-primary: #2196f3;
 
 #playlists{
+  margin-top: 15px;
+
   ul{
     padding: 0;
     list-style: none;
   }
   li {
+    &.active .icon, &:hover .icon{
+      color: #fff;
+      &:hover{ color: #ccc; }
+    }
+    &.active{
+      color: #fff;
+      background-color: #2196f3;
+    }
+    &:hover{
+      color: #fff;
+      background-color: #3da2f5;
+      .playlistActions{ visibility: visible; }
+    }
     cursor: pointer;
     padding: 10px;
     font-size: 1.1em;
-    table{ width: 100%;}
     td{ vertical-align: top; }
-    &:hover{
-      background-color: #efefef;
-      .icon{ visibility: visible; }
-    }
   }
 
   .description{
     font-size: 12px;
   }
 
+  .playlistActions{
+    visibility: hidden;
+  }
+
   .icon{
-    &.active{ color: $brand-primary !important; visibility: visible; }
     &:hover{ color: #666; }
+    font-size: 1.1em;
     cursor: pointer;
     color: #ccc;
-    visibility: hidden;
-    padding: 1px 7px 2px 0;
-    width: 25px;
+    padding: 5px;
   }
 
   #new {
@@ -40,42 +52,3 @@ $brand-primary: #2196f3;
 
 }
 
-#new-playlist-modal {
-  h4 {
-    .icon{
-      &:hover{ color: #666; }
-      font-size: 15px;
-      vertical-align: middle;
-      margin-left: 20px;
-      cursor: pointer;
-    }
-    input{
-      width: 90%;
-      max-width: 350px;
-    }
-  }
-
-  .modal-body{
-    max-width: 350px;
-  }
-
-  .modal-dialog {
-    width: 90%;
-    height: 90%;
-  }
-
-  .modal-content {
-    height: 100%;
-  }
-
-  .modal-footer {
-    button {
-      margin: 0 5px;
-    }
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-  }
-
-}

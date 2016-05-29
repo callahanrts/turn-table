@@ -6,12 +6,13 @@ import { Playlists } from '../../api/playlists.js';
 
 class PlaylistsCtrl {
 
-  constructor($scope, playlistService) {
+  constructor($scope, playlistService, $reactive) {
     this.playlistService = playlistService;
     $scope.viewModel(this);
     this.subscribe('playlists');
+    let reactiveContext = $reactive(this).attach($scope);
 
-    this.helpers({
+    reactiveContext.helpers({
       user: () => { return Meteor.user() },
       playlists() {
         const selector = {};
@@ -25,32 +26,32 @@ class PlaylistsCtrl {
       },
     })
 
-    $scope.newPlaylist = this.newPlaylist;
-    $scope.editTitle = this.editTitle;
   }
 
   newPlaylist() {
-    this.playlistService.editPlaylist({ name: "New Playlist" });
+    this.playlistService.editPlaylist(this.playlistSkeleton());
     $("#playlist-editor").fadeIn(200);
     $("#content-wrapper").fadeOut(200);
   }
 
+  playlistSkeleton() {
+    return {
+      name: "New Playlist",
+      active: Playlists.find().fetch().length == 0,
+      tracks: []
+    }
+  }
+
   editPlaylist(playlist) {
+    console.log(playlist);
     this.playlistService.editPlaylist(playlist);
     $("#playlist-editor").fadeIn(200);
     $("#content-wrapper").fadeOut(200);
   }
 
-  editTitle(edit) {
-    if(typeof edit == 'boolean'){
-      this.edit = edit;
-    }
-    return this.edit || false;
-  }
-
 }
 
-PlaylistsCtrl.$inject = ['$scope', 'playlistService']
+PlaylistsCtrl.$inject = ['$scope', 'playlistService', '$reactive'];
 
 export default angular.module('playlists', [
   angularMeteor,

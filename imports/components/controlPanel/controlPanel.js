@@ -10,6 +10,7 @@ class ControlPanelCtrl {
     this.settingsService = settingsService;
     this.settings = settingsService.get("controlPanel") || this.defaultSettings();
     this.pane = this.settings.pane;
+    $('#controlTabs a[href="#'+this.pane+'"]').tab('show');
   }
 
   selectPane(pane) {

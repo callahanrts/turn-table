@@ -3,7 +3,7 @@
   <div id="video-player" ng-class="$ctrl.size">
     <div class="info">
       <span>{{ $ctrl.room.playing.user.profile.name }} - {{ $ctrl.room.playing.user.profile.score }}</span>
-      <span class="pull-right skip" ng-show="$ctrl.admin() || $ctrl.currentlyPlaying()" ng-click="$ctrl.skip()">
+      <span class="pull-right skip" ng-show="($ctrl.admin() && $ctrl.playing()) || $ctrl.currentlyPlaying()" ng-click="$ctrl.skip()">
         skip track
         <span class="fa fa-share"></span>
       </span>
@@ -34,7 +34,7 @@
 
   </div>
 
-  <div id="dj-playing">
+  <div id="dj-playing" ng-if="$ctrl.room.playing.user">
     <img src="https://s3-us-west-1.amazonaws.com/plugdj-avatars/djing/{{$ctrl.room.playing.user.profile.avatar}}.gif" />
   </div>
 

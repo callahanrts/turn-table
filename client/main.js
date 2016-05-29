@@ -7,7 +7,6 @@ import player from         '../imports/components/player/player';
 import cpanel from         '../imports/components/controlPanel/controlPanel';
 import playlists from      '../imports/components/playlists/playlists';
 import queue from          '../imports/components/queue/queue';
-import searchModal from    '../imports/components/searchModal/searchModal';
 import playlistEditor from '../imports/components/playlistEditor/playlistEditor';
 import roomList from       '../imports/components/roomList/roomList';
 import mainMenu from       '../imports/components/mainMenu/mainMenu';
@@ -33,7 +32,6 @@ angular.module('turn-table', [
   player.name,
   cpanel.name,
   playlists.name,
-  searchModal.name,
   playlistEditor.name,
   roomList.name,
   queue.name,
@@ -47,7 +45,6 @@ angular.module('turn-table', [
   'ui.sortable',
 ])
   .config(['$locationProvider', '$urlRouterProvider', '$stateProvider', ($locationProvider, $urlRouterProvider, $stateProvider) => {
-    console.log(arguments);
     'ngInject';
 
     $locationProvider.html5Mode(true);

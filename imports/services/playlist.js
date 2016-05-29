@@ -40,7 +40,9 @@ class playlistService {
     if(!!playlist._id){
       Meteor.call('playlists.update', playlist)
     } else {
-      Meteor.call('playlists.insert', playlist)
+      Meteor.call('playlists.insert', playlist, (err, playlist) => {
+        this.currentPlaylist = playlist;
+      })
     }
   }
 

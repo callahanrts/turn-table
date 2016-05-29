@@ -4,6 +4,7 @@
     <login-buttons></login-buttons>
 
     <div ng-show="$ctrl.loggedIn()">
+
       <div class="form-group">
         <label for="roomName">Venue Name</label>
         <input id="roomName" type="text" class="form-control" ng-model="roomName">
@@ -12,14 +13,15 @@
       <div class="form-group">
         <button class="btn btn-primary form-control" ng-click="$ctrl.createRoom(roomName)">New Venue</button>
       </div>
-    </div>
 
-    <ul>
-      <li ng-repeat="room in $ctrl.rooms" ng-click="$ctrl.enterRoom(room)">
-        <span>{{ room.name }}</span>
-        <span class="glyphicon glyphicon-trash remove" ng-click="$ctrl.removeRoom(room)"></span>
-      </li>
-    </ul>
+      <ul>
+        <li ng-repeat="room in $ctrl.rooms" ng-click="$ctrl.enterRoom(room)">
+          <span>{{ room.name }}</span>
+          <span class="glyphicon glyphicon-trash remove" ng-click="$ctrl.removeRoom(room)"></span>
+        </li>
+      </ul>
+
+    </div>
 
   </div>
 </div>

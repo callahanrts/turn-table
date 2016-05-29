@@ -1,13 +1,26 @@
-<div class="dropdown">
-  <button class="btn btn-link btn-block dropdown-toggle" type="button" id="control-panes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    <h1>{{ $ctrl.pane }}</h1>
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    <li ng-click="$ctrl.selectPane('queue')"><a href="#">Queue</a></li>
-    <li ng-click="$ctrl.selectPane('playlists')"><a href="#">Playlists</a></li>
-  </ul>
-</div>
+<!-- <div class="dropdown"> -->
+<!--   <button class="btn btn-link btn-block dropdown-toggle" type="button" id="control-panes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> -->
+<!--     <h1>{{ $ctrl.pane }}</h1> -->
+<!--     <span class="caret"></span> -->
+<!--   </button> -->
+<!--   <ul class="dropdown-menu" aria-labelledby="dropdownMenu1"> -->
+<!--     <li ng-click="$ctrl.selectPane('queue')"><a href="#">Queue</a></li> -->
+<!--     <li ng-click="$ctrl.selectPane('playlists')"><a href="#">Playlists</a></li> -->
+<!--   </ul> -->
+<!-- </div> -->
+<!-- Nav tabs -->
+
+<ul class="nav nav-tabs" id="controlTabs" role="tablist" style="width: 100%;">
+
+  <li role="presentation" ng-style="{ active: $ctrl.pane == 'playlists' }" ng-click="$ctrl.selectPane('playlists')">
+    <a href="#playlists" aria-controls="playlists" role="tab" data-toggle="tab">Playlists</a>
+  </li>
+
+  <li role="presentation" ng-style="{ active: $ctrl.pane == 'queue' }" ng-click="$ctrl.selectPane('queue')">
+    <a href="#queue" aria-controls="queue" role="tab" data-toggle="tab">Queue</a>
+  </li>
+
+</ul>
 
 <div id="queue" ng-show="$ctrl.pane == 'queue'">
   <queue></queue>

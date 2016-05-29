@@ -1,22 +1,11 @@
 <div id="playlists">
   <ul>
-    <li ng-repeat="p in $ctrl.playlists" ng-click="$ctrl.editPlaylist(p)">
-      <table>
-        <tr>
-          <td class="icon" ng-class="{ active: !!p.active }" ng-click="$ctrl.playlistService.activate(p, $event)">
-            <span class="glyphicon glyphicon-ok-circle"></span>
-          </td>
-          <td>
-            <span>
-              <div class="title">{{ p.name }}</div>
-              <!-- <div class="description">{{ p.description }}</div> -->
-            </span>
-          </td>
-          <td class="icon" ng-click="$ctrl.playlistService.remove(p, $event)">
-            <span class="glyphicon glyphicon-trash"></span>
-          </td>
-        </tr>
-      </table>
+    <li ng-repeat="p in $ctrl.playlists" ng-class="{ active: !!p.active }" ng-click="$ctrl.playlistService.activate(p, $event)">
+      <span>{{ p.name }}</span>
+      <div class="pull-right playlistActions">
+        <span class="icon fa fa-pencil" ng-click="$ctrl.editPlaylist(p); $event.stopPropagation();"></span>
+        <span class="icon fa fa-trash" ng-click="$ctrl.playlistService.remove(p, $event); $event.stopPropagation();"></span>
+      </div>
     </li>
   </ul>
 

@@ -38,11 +38,18 @@ if (Meteor.isServer) {
       check(userId, String);
       let room = Rooms.findOne(roomId);
       let user = Meteor.users.findOne(userId);
+
+      // Add user to the room's queue
       if(!!user) room.queue.push({ id: user._id, name: user.profile.name });
+
+      // Ensure uniqueness of queue
       room.queue = _.uniq(room.queue, false, (el) => { return el.id });
-      if(updateQueue(room, userId))
-        if(!room.playing.id){ playNext(room._id); }
+
+      // Update the queue and play next (if no one is playing)
+      if(updateQueue(room, userId)) {
         console.log("added " + userId + " to queue");
+        //if(!roomIsPlaying(room)){ playNext(room._id); }
+      }
     },
 
     'room.removeFromQueue' (roomId, userId) {
@@ -50,9 +57,13 @@ if (Meteor.isServer) {
       check(userId, String);
       let room = Rooms.findOne(roomId);
       let user = Meteor.users.findOne(userId);
+
+      // Remove user from queue
+      // This should be locked to admins and the user him/herself
       room.queue = without(room.queue, user._id);
-      if(updateQueue(room, userId))
+      if(updateQueue(room, userId)){
         console.log("removed " + userId + " from queue")
+      }
     },
 
 
@@ -91,6 +102,7 @@ Meteor.methods({ 'rooms.insert' (room) {
 
     const room = Rooms.findOne(roomId);
     if (room.owner !== Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
     }
 
     Rooms.remove(roomId);
@@ -98,29 +110,34 @@ Meteor.methods({ 'rooms.insert' (room) {
 
   'room.join' (roomId) {
     check(roomId, String);
+    let room = Rooms.findOne(roomId);
+    let user = _.pick(Meteor.user(), "_id", "profile");
+
+    // User defaults. This should be done after signup (If I can find a way to do it).
     if(!Meteor.user().profile || !Meteor.user().profile.avatar) Meteor.call("user.updateAvatar", "classic08");
     if(!Meteor.user().profile || !Meteor.user().profile.name){
       Meteor.call("user.updateName", Meteor.user().username);
     }
-    let room = Rooms.findOne(roomId);
-    let u = _.pick(Meteor.user(), "_id", "profile");
-    if(!!room && room.playing.user._id != u._id){
-      room.audience.push(u);
-      room.audience = _.uniq(room.audience, false, (el) => { return el._id });
-      Rooms.update(room._id, { $set: { audience: room.audience } });
+
+    // Add to audience
+    if(userIsNotPlaying(room, user)){
+      addUserToAudience(room, user);
     }
+
+    // Keep track of the room a user is in
     let a = Meteor.users.update(Meteor.userId(), {$set: {"status.currentRoom": roomId }} );
     console.log((a == 1 ? "successfully joined " : "failed to join ") + roomId);
   },
 
   'room.updateSettings' (roomId, settings) {
     let room = Rooms.findOne(roomId);
-    if(!room){ return }
-    if(isAdmin(room.admins, Meteor.userId())){
+    if(!!room && isAdmin(room.admins, Meteor.userId())){
+      // Only allow specific settings to be updated
       if(settings.hasOwnProperty("requeue")){ room.settings.requeue = settings.requeue }
       if(settings.hasOwnProperty("size")){ room.settings.size = settings.size }
       if(settings.maxTrackLength){ room.settings.maxTrackLength = settings.maxTrackLength }
-      let s = Rooms.update(room._id, { $set: { settings: room.settings } });
+
+      Rooms.update(room._id, { $set: { settings: room.settings } });
     }
   },
 
@@ -202,13 +219,18 @@ var nextUser = (room) => {
 
 var playNext = (roomId) => {
   let room = Rooms.findOne(roomId);
-  if(isAdmin(room.admins, Meteor.userId()) || trackOver(room) || room.playing.user._id == Meteor.userId()) {
+  //if(isAdmin(room.admins, Meteor.userId()) || trackOver(room) || room.playing.user._id == Meteor.userId()) {
     let user = nextUser(room);
-    if(user == null){
-      updatePlaying(room, {});
+
+    // If there is no one else in the queue to play, clear playing
+    if(!user){
+      // Rooms.update(room._id, { $set: { playing: {} } });
+      // updatePlaying(room, {});
       return
     }
 
+    // If the next person has a track lined up, let them play it. Otherwise, skip them
+    // and eject them from the queue
     let track = nextTrack(user.id);
     if(!!track){
       updatePlaying(room, track, user);
@@ -216,7 +238,8 @@ var playNext = (roomId) => {
       Rooms.update(room._id, { $set: { queue: without(room.queue, user.id) } });
       playNext(room._id);
     }
-  }
+  //}
+    //Rooms.update(room._id, { $set: { playing: {} } });
 }
 
 var trackOver = (room) => {
@@ -238,14 +261,29 @@ var isAdmin = (admins, userId) => {
   return admins.indexOf(userId) != -1
 }
 
+var addUserToAudience = (room, user) => {
+  room.audience.push(user);
+  room.audience = _.uniq(room.audience, false, (el) => { return el._id });
+  Rooms.update(room._id, { $set: { audience: room.audience } });
+}
+
+var userIsNotPlaying = (room, user) => {
+  return !!room && (!room.playing.user || room.playing.user._id != user._id);
+}
+
+var roomIsPlaying = (room) => {
+  return !!room && room.playing && room.playing.user;
+}
+
 var updateQueue = (room, userId) => {
   let me = Meteor.user();
   let user = Meteor.users.findOne(userId);
-  if(room != undefined && me != undefined && user != undefined) {
+
+  if(!!room && !!me && !!user) {
+    // If the user is an admin or adding/removing oneself from the queue
     if(me._id === user._id || isAdmin(room.admins, me._id)) {
       let success = Rooms.update(room._id, { $set: { queue: room.queue } });
-      if(success == 1)
-        return true;
+      if(success == 1){ return true; }
     }
   }
   return false;

@@ -2,7 +2,6 @@ accounts-base@1.2.7
 accounts-facebook@1.0.9
 accounts-google@1.0.9
 accounts-oauth@1.1.12
-accounts-password@1.1.8
 accounts-twitter@1.0.9
 accounts-ui@1.1.9
 accounts-ui-unstyled@1.1.12
@@ -33,7 +32,6 @@ dotansimha:accounts-ui-angular@0.0.4
 ecmascript@0.4.3
 ecmascript-runtime@0.2.10
 ejson@1.0.11
-email@1.0.12
 es5-shim@4.5.10
 facebook@1.2.6
 fastclick@1.0.11
@@ -69,7 +67,6 @@ mongo-id@1.0.4
 mrt:jquery-imagesloaded@0.0.2
 mrt:jquery-masonry@0.1.0
 mrt:jquery-ui@1.9.2
-npm-bcrypt@0.8.5
 npm-container@1.2.0
 npm-mongo@1.4.43
 oauth@1.1.10
@@ -94,10 +91,8 @@ routepolicy@1.0.10
 seba:minifiers-autoprefixer@1.0.1
 service-configuration@1.0.9
 session@1.1.5
-sha@1.0.7
 spacebars@1.0.11
 spacebars-compiler@1.0.11
-srp@1.0.8
 standard-minifier-js@1.0.6
 templating@1.1.9
 templating-tools@1.0.4

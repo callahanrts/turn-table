@@ -28,10 +28,13 @@ Meteor.methods({ 'playlists.insert' (playlist) {
       throw new Meteor.Error('not-authorized');
     }
 
-    Playlists.insert(_.extend(playlist, {
+    let id = Playlists.insert(_.extend(playlist, {
       createdAt: new Date(),
       owner: Meteor.userId(),
     }));
+
+    // Return the inserted playlist
+    return Playlists.findOne(id);
   },
 
   'playlists.update' (playlist, options) {
@@ -72,7 +75,6 @@ Meteor.methods({ 'playlists.insert' (playlist) {
 });
 
 var savePlaylist = function(playlist) {
-  console.log(playlist);
   Playlists.update(playlist._id, {
     $set: {
       name: playlist.name,

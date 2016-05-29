@@ -2,7 +2,7 @@
   "name": "turn-table",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run --settings settings.development.json"
   },
   "dependencies": {
     "angular": "^1.5.6",
