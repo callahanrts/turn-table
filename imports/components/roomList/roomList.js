@@ -25,6 +25,10 @@ class RoomListCtrl {
     });
   }
 
+  loggedIn() {
+    return !!Meteor.userId();
+  }
+
   removeRoom(room) {
     Meteor.call('rooms.remove', room._id)
   }
