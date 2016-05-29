@@ -46,29 +46,28 @@ angular.module('turn-table', [
   'accounts.ui',
   'ui.sortable',
 ])
-  .config(config);
+  .config(['$locationProvider', '$urlRouterProvider', '$stateProvider', ($locationProvider, $urlRouterProvider, $stateProvider) => {
+    console.log(arguments);
+    'ngInject';
 
-function config($locationProvider, $urlRouterProvider, $stateProvider) {
-  'ngInject';
+    $locationProvider.html5Mode(true);
 
-  $locationProvider.html5Mode(true);
+    $urlRouterProvider.otherwise('/');
 
-  $urlRouterProvider.otherwise('/');
-
-  $stateProvider
-    .state('rooms', {
-      url: '/',
-      template: '<rooms></rooms>'
-    })
-    .state('room', {
-      url: '/venues/:roomId',
-      template: '<room></room>'
-    })
-    .state('index', {
-      url: '/index',
-      template: '<index></index>'
-    });
-}
+    $stateProvider
+      .state('rooms', {
+        url: '/',
+        template: '<rooms></rooms>'
+      })
+      .state('room', {
+        url: '/venues/:roomId',
+        template: '<room></room>'
+      })
+      .state('index', {
+        url: '/index',
+        template: '<index></index>'
+      });
+  }]);
 
 function onReady() {
   angular.bootstrap(document, ['turn-table']);
