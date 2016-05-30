@@ -19,8 +19,19 @@ if (Meteor.isServer) {
     rand = rand < 10 ? "0"+rand : rand.toString();
     user.profile = user.profile || {};
     user.profile.avatar = user.profile.avatar || "base" + rand;
+    user.profile.name = user.profile.name || serviceName(user.services) || user.username;
     return user;
   });
+
+  var serviceName = (services) => {
+    if(services.hasOwnProperty('facebook'))
+      return services.facebook.first_name;
+    else if(services.hasOwnProperty('google'))
+      return services.google.given_name;
+    else if(services.hasOwnProperty('twitter'))
+      return services.twitter.screenName;
+    return null;
+  }
 
   // This code only runs on the server
   Meteor.users.find({ "status.online": true }).observe({

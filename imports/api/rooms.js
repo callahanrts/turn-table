@@ -113,12 +113,6 @@ Meteor.methods({ 'rooms.insert' (room) {
     let room = Rooms.findOne(roomId);
     let user = _.pick(Meteor.user(), "_id", "profile");
 
-    // User defaults. This should be done after signup (If I can find a way to do it).
-    if(!Meteor.user().profile || !Meteor.user().profile.avatar) Meteor.call("user.updateAvatar", "classic08");
-    if(!Meteor.user().profile || !Meteor.user().profile.name){
-      Meteor.call("user.updateName", Meteor.user().username);
-    }
-
     // Add to audience
     if(userIsNotPlaying(room, user)){
       addUserToAudience(room, user);

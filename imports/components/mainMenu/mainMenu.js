@@ -62,7 +62,7 @@ class MainMenuCtrl {
   }
 
   logout() {
-    this.meteor.logout();
+    Meteor.logout();
   }
 
 }
