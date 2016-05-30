@@ -84,12 +84,14 @@ class PlayerCtrl {
   }
 
   grab() {
-    Meteor.call("room.grab", this.room._id);
-    this.upvote();
+    if(!this.grabbed()){
+      Meteor.call("room.grab", this.room._id);
+      this.upvote();
+    }
   }
 
   grabbed() {
-    return this.room && this.room.playing.grabbed && this.room.playing.grabbed.indexOf(userId || Meteor.userId()) != -1
+    return this.room && this.room.playing.grabbed && this.room.playing.grabbed.indexOf(Meteor.userId()) != -1
   }
 
   skip() {

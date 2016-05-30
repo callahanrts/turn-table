@@ -8,11 +8,25 @@
   &.medium{ max-width: 549px; }
   &.large{ max-width: 650px; }
 
-  .info{ padding: 5px 0; }
-  .skip {
-    span{ vertical-align: middle; margin-left: 7px; }
-    &:hover{ color: #999; }
-    cursor: pointer;
+  .info{
+    .playing, .color{ padding: 2px 10px; display: inline-block; }
+    .playing{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: calc(100% - 50px);
+      vertical-align: top;
+    }
+    .color{
+      background-color: #2196f3;
+      &:hover{ color: #333; }
+      span{ padding: 0 5px; }
+      cursor: pointer;
+    }
+    margin: 5px 0;
+    padding: 0;
+    background-color: #333;
+    border: 2px solid #2196f3;
   }
 
   #respond{
@@ -39,7 +53,9 @@
     .voted.up .count{ color: #4caf50; }
     .voted.grab .count{ color: #ff9800; }
 
+    .voted .vote-icon{ color: #333; }
     .vote-icon{
+      &:hover{ color: #333; }
       position: relative;
       cursor: pointer;
       height: 100%;

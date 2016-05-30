@@ -76,7 +76,7 @@ if (Meteor.isServer) {
       if(success){
         // Add user to grabbed list
         room.playing.grabbed.push(Meteor.userId());
-        Rooms.update(room._id, { $set: { grabbed: _.uniq(room.grabbed) } });
+        Rooms.update(room._id, { $set: { 'playing.grabbed': _.uniq(room.playing.grabbed) } });
       }
     }
 

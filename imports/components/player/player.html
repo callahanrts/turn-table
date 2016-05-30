@@ -2,11 +2,12 @@
 
   <div id="video-player" ng-class="$ctrl.size">
     <div class="info">
-      <span>{{ $ctrl.room.playing.user.profile.name }} - {{ $ctrl.room.playing.user.profile.score }}</span>
-      <span class="pull-right skip" ng-show="($ctrl.admin() && $ctrl.playing()) || $ctrl.currentlyPlaying()" ng-click="$ctrl.skip()">
-        skip track
-        <span class="fa fa-share"></span>
-      </span>
+      <div class="playing">{{ $ctrl.room.playing.title }} - {{ $ctrl.room.playing.user.profile.score }}</div>
+      <div class="pull-right color" ng-show="($ctrl.admin() && $ctrl.playing()) || $ctrl.currentlyPlaying()" ng-click="$ctrl.skip()">
+        <span class="pull-right">
+          <span class="fa fa-chevron-right"></span>
+        </span>
+      </div>
     </div>
 
     <div class="embed-responsive embed-responsive-16by9">
@@ -23,7 +24,7 @@
 
       <div class="col-sm-4">
         <div class="vote grab">
-          <div class="count pull-left">{{ $ctrl.room.playing.upvoted.length || 0 }}</div>
+          <div class="count pull-left">{{ $ctrl.room.playing.grabbed.length || 0 }}</div>
           <div class="vote-icon pull-right" ng-click="$ctrl.grab()">
             <span class="fa fa-star"></span>
           </div>
