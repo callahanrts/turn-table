@@ -16,6 +16,7 @@ class PlayerCtrl {
   constructor($scope, $rootScope, roomService, $stateParams, $reactive) {
     $scope.viewModel(this);
     this.subscribe('rooms');
+    Meteor.subscribe('users', $stateParams.roomId);
     let reactiveContext = $reactive(this).attach($scope);
     let $ctrl = this;
     this.size = "small";
@@ -35,8 +36,13 @@ class PlayerCtrl {
         trackLastChanged = new Date().getTime();
         let room = Rooms.findOne($stateParams.roomId);
         console.log(room);
-        if(!!room) this.placeAvatars(room.audience);
         return  room
+      },
+
+      audience: () => {
+        let audience = Meteor.users.find().fetch();
+        this.placeAvatars(audience);
+        return audience;
       }
     })
 
@@ -85,8 +91,16 @@ class PlayerCtrl {
     return this.playing() && this.room.playing.user._id == Meteor.userId();
   }
 
-  playing() {
-    return this.room && this.room.playing.user
+  playing(userId) {
+    // Someone is playing
+    let playing = this.room && this.room.playing.user;
+
+    // User is playing
+    if(!!userId){
+      playing = playing && this.room.playing.user._id == userId
+    }
+
+    return playing;
   }
 
   admin(){

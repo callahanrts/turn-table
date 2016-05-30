@@ -5,13 +5,14 @@ import { check } from 'meteor/check';
 import { Rooms } from './rooms.js';
 
 if (Meteor.isServer) {
-  // Meteor.publish('users', function tasksPublication() {
-  //   return Meteor.users.find({}, {
-  //     fields: {
-  //       'status': 1
-  //     }
-  //   });
-  // });
+  Meteor.publish('users', function tasksPublication(roomId) {
+    return Meteor.users.find({ 'status.currentRoom': roomId }, {
+      fields: {
+        status: 1,
+        profile: 1
+      }
+    })
+  });
 
   // Support for playing D&D: Roll 3d6 for dexterity
   Accounts.onCreateUser(function(options, user) {
@@ -80,8 +81,14 @@ if (Meteor.isServer) {
             console.log("removing " + user._id)
           }
         }
-      }, 5000);
+      }, 30 * 1000);
+    },
+
+    'user.audienceOf' (roomId) {
+      console.log("audience of " + roomId)
+      return Meteor.users.find({ 'status.currentRoom': roomId }).fetch();
     }
+
   })
 
 }

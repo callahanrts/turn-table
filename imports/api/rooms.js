@@ -88,7 +88,6 @@ Meteor.methods({ 'rooms.insert' (room) {
     Rooms.insert(_.extend(room, {
       queue: [],
       admins: [Meteor.userId()],
-      audience: [],
       playing: {},
       settings: defaultSettings(),
       createdAt: new Date(),
@@ -111,12 +110,8 @@ Meteor.methods({ 'rooms.insert' (room) {
   'room.join' (roomId) {
     check(roomId, String);
     let room = Rooms.findOne(roomId);
+    room.test = Meteor.users.find({ 'status.currentRoom': room._id })
     let user = _.pick(Meteor.user(), "_id", "profile");
-
-    // Add to audience
-    if(userIsNotPlaying(room, user)){
-      addUserToAudience(room, user);
-    }
 
     // Keep track of the room a user is in
     let a = Meteor.users.update(Meteor.userId(), {$set: {"status.currentRoom": roomId }} );
@@ -175,13 +170,8 @@ var scoreTrack = (room) => {
 var updatePlaying = (room, track, user) => {
   let u = _.pick(Meteor.users.findOne(user.id), '_id', 'profile');
   scoreTrack(room);
-  if(room.playing && room.playing.user) {
-    // Add playing user back to audience
-    room.audience.push(_.pick(room.playing.user, "_id", "profile"));
-  }
   Rooms.update(room._id, { $set: {
     queue: room.queue,
-    audience: without(room.audience, u._id),
     playing: _.extend(track, { started: new Date().getTime(), upvoted: [], downvoted: [], user: u }) || {}
   } });
 }
@@ -256,12 +246,6 @@ var defaultSettings = () => {
 
 var isAdmin = (admins, userId) => {
   return admins.indexOf(userId) != -1
-}
-
-var addUserToAudience = (room, user) => {
-  room.audience.push(user);
-  room.audience = _.uniq(room.audience, false, (el) => { return el._id });
-  Rooms.update(room._id, { $set: { audience: room.audience } });
 }
 
 var userIsNotPlaying = (room, user) => {
