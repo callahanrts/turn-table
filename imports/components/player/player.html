@@ -36,6 +36,13 @@
   </div>
 
   <div id="dj-playing" ng-if="$ctrl.room.playing.user">
+    <div class="user-data">
+      <div class="user-data-wrapper">
+        <div><span>{{ $ctrl.room.playing.user.profile.name }}</span></div>
+        <div><span>{{ $ctrl.room.playing.user.profile.points || 0 }}</span></div>
+        <span class="arrow-down"></span>
+      </div>
+    </div>
     <img src="https://s3-us-west-1.amazonaws.com/plugdj-avatars/djing/{{$ctrl.room.playing.user.profile.avatar}}.gif" />
   </div>
 
@@ -43,6 +50,7 @@
     <div class="floor-wrapper">
       <div ng-hide="$ctrl.playing(user._id)" ng-repeat="user in $ctrl.audience" ng-class="user._id" class="audience">
         <div class="audience-wrapper">
+
           <div class="user-data">
             <div class="user-data-wrapper">
               <div><span>{{ user.profile.name }}</span></div>
@@ -50,6 +58,7 @@
               <span class="arrow-down"></span>
             </div>
           </div>
+
           <img ng-src="https://s3-us-west-1.amazonaws.com/plugdj-avatars/standing/{{user.profile.avatar}}.gif" ng-hide="$ctrl.upvoted(user._id)" />
           <img ng-src="https://s3-us-west-1.amazonaws.com/plugdj-avatars/dancing/{{user.profile.avatar}}.gif" ng-show="$ctrl.upvoted(user._id)" />
         </div>
