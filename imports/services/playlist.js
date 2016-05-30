@@ -25,14 +25,16 @@ class playlistService {
   }
 
   remove(playlist, $event){
-    Meteor.call('playlists.remove', playlist);
+    if(confirm("Are you sure you want to delete this playlist?")){
+      Meteor.call('playlists.remove', playlist);
 
-    // Prevent bubbling to showItem.
-    // On recent browsers, only $event.stopPropagation() is needed
-    if ($event.stopPropagation) $event.stopPropagation();
-    if ($event.preventDefault) $event.preventDefault();
-    $event.cancelBubble = true;
-    $event.returnValue = false;
+      // Prevent bubbling to showItem.
+      // On recent browsers, only $event.stopPropagation() is needed
+      if ($event.stopPropagation) $event.stopPropagation();
+      if ($event.preventDefault) $event.preventDefault();
+      $event.cancelBubble = true;
+      $event.returnValue = false;
+    }
   }
 
   savePlaylist(playlist) {
