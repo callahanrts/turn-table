@@ -1,13 +1,14 @@
 $brand-primary: #2196f3;
 
 #queue{
+  margin-top: 15px;
   ul{
     padding: 0;
     list-style: none;
   }
 
   .admin li:hover{
-    background-color: #efefef;
+    background-color: #444;
     .actions{ visibility: visible; }
   }
 

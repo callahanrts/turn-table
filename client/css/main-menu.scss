@@ -1,6 +1,7 @@
 $main-menu-width: 200px;
 #main-menu {
-  background-color: #efefef;
+  background-color: #333;
+  color: #fff;
   &.minimized{
     left: -1 * $main-menu-width;
     .menu-toggle{ right: -40px; top: 10px; }
@@ -19,6 +20,10 @@ $main-menu-width: 200px;
   box-shadow: 0 0 7px 0 #333;
 
   .logout {
+    &.btn-link:hover, &.btn-link:active:hover{
+      background-color: #333 !important;
+    }
+    color: #fff;
     position: absolute;
     left: 10px;
     bottom: 0;
@@ -29,7 +34,7 @@ $main-menu-width: 200px;
     span { vertical-align: middle; display: inline-block; }
     &:hover{
       .text { width: 70px; }
-      color: #2196f3;
+      color: #e51c23;
     }
     .text{
       width: 0;
