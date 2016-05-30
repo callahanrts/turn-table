@@ -17,23 +17,41 @@
 
   #respond{
     padding-top: 5px;
-    > div {
-      padding: 0;
-      &.left{ padding-right: 5px;}
-      &.right{ padding-left: 5px;}
+    .up{
+      .vote-icon{ background-color: #4caf50; }
+      background-color: #333;
+      border: 2px solid #4caf50;
     }
-    overflow: auto;
-    background-color: rgba(0,0,0,0.7);
-    padding: 5px;
-    .scores {
-      height: 100%;
-      text-align: center;
-      font-size: 18px;
-      span:first-child{ padding-left: 10px; }
-      span:last-child{ padding-right: 10px; }
-      .up{ color: #4caf50; }
-      .down{ color: #e51c23; }
 
+    .down{
+      .vote-icon{ background-color: #e51c23; }
+      background-color: #333;
+      border: 2px solid #e51c23;
+    }
+
+    .voted.down .count{ color: #e51c23; }
+    .voted.up .count{ color: #4caf50; }
+
+    .vote-icon{
+      position: relative;
+      cursor: pointer;
+      height: 100%;
+      width: 50%;
+      text-align: center;
+    }
+    .count{ width: 50%; text-align: center; }
+    .vote{
+      position: relative;
+      padding: 0;
+      font-size: 1.3em;
+      > div { padding: 5px; }
+    }
+    .box{
+      .count{
+        color: #fff;
+        background-color: #333;
+        padding: 10px;
+      }
     }
 
   }

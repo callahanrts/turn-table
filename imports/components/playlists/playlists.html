@@ -1,6 +1,7 @@
 <div id="playlists">
   <ul>
     <li ng-repeat="p in $ctrl.playlists" ng-class="{ active: !!p.active }" ng-click="$ctrl.playlistService.activate(p, $event)">
+      <span class="glyphicon glyphicon-ok-circle" ng-show="!!p.active"></span>
       <span>{{ p.name }}</span>
       <div class="pull-right playlistActions">
         <span class="icon fa fa-pencil" ng-click="$ctrl.editPlaylist(p); $event.stopPropagation();"></span>

@@ -48,7 +48,7 @@ if (Meteor.isServer) {
       // Update the queue and play next (if no one is playing)
       if(updateQueue(room, userId)) {
         console.log("added " + userId + " to queue");
-        //if(!roomIsPlaying(room)){ playNext(room._id); }
+        if(!roomIsPlaying(room)){ playNext(room._id); }
       }
     },
 
@@ -219,12 +219,12 @@ var nextUser = (room) => {
 
 var playNext = (roomId) => {
   let room = Rooms.findOne(roomId);
-  //if(isAdmin(room.admins, Meteor.userId()) || trackOver(room) || room.playing.user._id == Meteor.userId()) {
+  if(canSkipUser(room)){
     let user = nextUser(room);
 
     // If there is no one else in the queue to play, clear playing
     if(!user){
-      // Rooms.update(room._id, { $set: { playing: {} } });
+      Rooms.update(room._id, { $set: { playing: {} } });
       // updatePlaying(room, {});
       return
     }
@@ -238,8 +238,11 @@ var playNext = (roomId) => {
       Rooms.update(room._id, { $set: { queue: without(room.queue, user.id) } });
       playNext(room._id);
     }
-  //}
-    //Rooms.update(room._id, { $set: { playing: {} } });
+  }
+}
+
+var canSkipUser = (room) => {
+  return isAdmin(room.admins, Meteor.userId()) || trackOver(room) || userIsPlaying(room, Meteor.user())
 }
 
 var trackOver = (room) => {
@@ -271,8 +274,12 @@ var userIsNotPlaying = (room, user) => {
   return !!room && (!room.playing.user || room.playing.user._id != user._id);
 }
 
+var userIsPlaying = (room, user) => {
+  return !!room && room.playing.user._id == Meteor.userId();
+}
+
 var roomIsPlaying = (room) => {
-  return !!room && room.playing && room.playing.user;
+  return !!room && !!room.playing && !!room.playing.user;
 }
 
 var updateQueue = (room, userId) => {

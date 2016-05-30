@@ -14,21 +14,22 @@
     </div>
 
     <div id="respond" ng-if="!!$ctrl.room.playing.id">
-      <div class="col-sm-5 left">
-        <button class="btn btn-danger btn-block" ng-click="$ctrl.downvote()" ng-disabled="$ctrl.downvoted()">
+      <div class="col-sm-4 down vote" ng-class="{ voted: $ctrl.downvoted() }">
+        <div class="vote-icon pull-left" ng-click="$ctrl.downvote()">
           <span class="fa fa-thumbs-down"></span>
-        </button>
+        </div>
+        <div class="count pull-right">{{ $ctrl.room.playing.downvoted.length || 0 }}</div>
       </div>
 
-      <div class="col-sm-2 scores">
-        <span class="down pull-left">{{ $ctrl.room.playing.downvoted.length || 0 }}</span>
-        <span class="up pull-right">{{ $ctrl.room.playing.upvoted.length || 0 }}</span>
+      <div class="col-sm-4 scores">
+        <span></span>
       </div>
 
-      <div class="col-sm-5 right">
-        <button class="btn btn-success btn-block" ng-click="$ctrl.upvote()" ng-disabled="$ctrl.upvoted()">
+      <div class="col-sm-4 vote up" ng-class="{ voted: $ctrl.upvoted() }">
+        <div class="count pull-left">{{ $ctrl.room.playing.upvoted.length || 0 }}</div>
+        <div class="vote-icon pull-right" ng-click="$ctrl.upvote()">
           <span class="fa fa-thumbs-up"></span>
-        </button>
+        </div>
       </div>
     </div>
 
