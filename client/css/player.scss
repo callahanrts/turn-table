@@ -80,6 +80,8 @@
   }
 
   .audience{
+    .audience-wrapper{ width: 100%; height: 100%; position: relative; }
+    img{ max-height: 100%; max-width: 100%; }
     position: absolute;
     left: 0;
     // Far back
@@ -91,5 +93,29 @@
     height: 120px;
     vertical-align: bottom;
     visibility: hidden;
+
+    &:hover .user-data{ display: block; }
+    .user-data{
+      .user-data-wrapper{ width: 100%; height: 100%; position: relative; }
+      display: none;
+      position: absolute;
+      background-color: #333;
+      padding: 5px;
+      width: 150px;
+      height: 75px;
+      top: calc(-75px + 10%);
+      left: calc(50% - 75px);
+      .arrow-down {
+        position: absolute;
+        bottom: -15px;
+        left: calc(50% - 10px);
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+
+        border-top: 10px solid #333;
+      }
+    }
   }
 }
