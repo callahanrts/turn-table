@@ -21,8 +21,13 @@
         <div class="count pull-right">{{ $ctrl.room.playing.downvoted.length || 0 }}</div>
       </div>
 
-      <div class="col-sm-4 scores">
-        <span></span>
+      <div class="col-sm-4">
+        <div class="vote grab">
+          <div class="count pull-left">{{ $ctrl.room.playing.upvoted.length || 0 }}</div>
+          <div class="vote-icon pull-right" ng-click="$ctrl.grab()">
+            <span class="fa fa-star"></span>
+          </div>
+        </div>
       </div>
 
       <div class="col-sm-4 vote up" ng-class="{ voted: $ctrl.upvoted() }">

@@ -66,6 +66,19 @@ if (Meteor.isServer) {
       }
     },
 
+    'room.grab' (roomId) {
+      let room = Rooms.findOne(roomId);
+      let track = _.pick(room.playing, "id", "image", "title");
+      let playlist = Playlists.findOne({ owner: Meteor.userId(), active: true });
+      // Add grabbed track to active playlist
+      playlist.tracks.push(track);
+      let success = Playlists.update(playlist._id, { $set: { tracks: playlist.tracks } });
+      if(success){
+        // Add user to grabbed list
+        room.playing.grabbed.push(Meteor.userId());
+        Rooms.update(room._id, { $set: { grabbed: _.uniq(room.grabbed) } });
+      }
+    }
 
   })
 
@@ -135,6 +148,7 @@ Meteor.methods({ 'rooms.insert' (room) {
     room.playing.upvoted = _.without(room.playing.upvoted, Meteor.userId())
     room.playing.downvoted = _.without(room.playing.downvoted, Meteor.userId())
     room.playing.upvoted.push(Meteor.userId());
+    room.playing.upvoted = _.uniq(room.playing.upvoted);
     Rooms.update(room._id, { $set: { playing: room.playing } });
   },
 
@@ -143,6 +157,7 @@ Meteor.methods({ 'rooms.insert' (room) {
     room.playing.upvoted = _.without(room.playing.upvoted, Meteor.userId())
     room.playing.downvoted = _.without(room.playing.downvoted, Meteor.userId())
     room.playing.downvoted.push(Meteor.userId());
+    room.playing.downvoted = _.uniq(room.playing.downvoted);
     Rooms.update(room._id, { $set: { playing: room.playing } });
   },
 
@@ -172,7 +187,7 @@ var updatePlaying = (room, track, user) => {
   scoreTrack(room);
   Rooms.update(room._id, { $set: {
     queue: room.queue,
-    playing: _.extend(track, { started: new Date().getTime(), upvoted: [], downvoted: [], user: u }) || {}
+    playing: _.extend(track, { started: new Date().getTime(), upvoted: [], downvoted: [], grabbed: [], user: u }) || {}
   } });
 }
 
