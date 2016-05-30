@@ -75,9 +75,10 @@
     <!--   <button type="button" class="btn btn-danger" ng-click="$ctrl.removeSelected($ctrl.currentPlaylist)" ng-show="$ctrl.hasSelectedTracks('saved')">Remove {{ $ctrl.selectedTracks.length }} Tracks</button> -->
     <!-- </div> -->
     <div class="actions pull-right">
-      <button type="button" class="btn btn-link" ng-click="$ctrl.close()">Close</button>
       <!-- <button type="button" class="btn btn-primary" ng-click="$ctrl.savePlaylist($ctrl.currentPlaylist)" ng-hide="$ctrl.hasSelectedTracks()">Save Playlist</button> -->
+      <button type="button" class="btn btn-primary" ng-click="$ctrl.importAll()" ng-show="$ctrl.hasSearchedTracks()">Import All</button>
       <button type="button" class="btn btn-primary" ng-click="$ctrl.saveTracks($ctrl.currentPlaylist)" ng-show="$ctrl.hasSelectedTracks('searched')">Add {{ $ctrl.selectedTracks.length }} Tracks</button>
+      <button type="button" class="btn btn-link" ng-click="$ctrl.close()">Close</button>
     </div>
   </div>
 </div>

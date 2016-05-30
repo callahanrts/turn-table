@@ -59,13 +59,17 @@ class PlaylistEditorCtrl {
 
   }
 
+  importAll() {
+    this.saveTracks(this.currentPlaylist, this.searchResults);
+  }
+
   removeTrack(track) {
     this.currentPlaylist.tracks = _.without(this.currentPlaylist.tracks, track);
     this.savePlaylist()
   }
 
-  saveTracks(playlist){
-    let tracks = Array.from(this.selectedTracks);
+  saveTracks(playlist, tracks){
+    tracks = tracks || Array.from(this.selectedTracks);
     playlist.tracks = playlist.tracks || [];
     playlist.tracks = _.uniq(playlist.tracks.concat(tracks));
     this.ps.currentPlaylist = playlist;
@@ -100,6 +104,10 @@ class PlaylistEditorCtrl {
 
   trackSelected(track) {
     return _.contains(this.selectedTracks, track);
+  }
+
+  hasSearchedTracks() {
+    return this.searchResults.length > 0;
   }
 
   hasSelectedTracks(type){

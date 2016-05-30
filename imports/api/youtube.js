@@ -40,12 +40,11 @@ var importPlaylist = (future, id) => {
     part: 'id,contentDetails',
     maxResults: 50
   }, (err, data) => {
-    console.log(err, data)
-    let ids = _.compact(data.items.map((el) => {
+    let items = !!err ? [] : data.items
+    importVideos(future, _.compact(items.map((el) => {
       return el.contentDetails.videoId;
-    }));
+    })));
 
-    importVideos(future, ids);
   })
 }
 
