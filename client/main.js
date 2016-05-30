@@ -14,7 +14,6 @@ import mainMenu from       '../imports/components/mainMenu/mainMenu';
 // Routes
 import room from '../imports/routes/rooms/room';
 import rooms from '../imports/routes/rooms/list';
-import index from '../imports/routes/index/index';
 
 import { Rooms } from '../imports/api/rooms.js';
 
@@ -39,7 +38,6 @@ angular.module('turn-table', [
 
   room.name,
   rooms.name,
-  index.name,
 
   'accounts.ui',
   'ui.sortable',
@@ -60,11 +58,15 @@ angular.module('turn-table', [
         url: '/venues/:roomId',
         template: '<room></room>'
       })
-      .state('index', {
-        url: '/index',
-        template: '<index></index>'
-      });
-  }]);
+  }])
+
+  .run(['$rootScope', ($rootScope) => {
+    $rootScope.$on('$stateChangeStart',
+    function(event, toState, toParams, fromState, fromParams){
+      // Clear the user's current room
+      Meteor.call("user.checkLogout", Meteor.userId());
+    })
+  }])
 
 function onReady() {
   angular.bootstrap(document, ['turn-table']);
