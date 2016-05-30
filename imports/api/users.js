@@ -13,6 +13,15 @@ if (Meteor.isServer) {
   //   });
   // });
 
+  // Support for playing D&D: Roll 3d6 for dexterity
+  Accounts.onCreateUser(function(options, user) {
+    let rand = parseInt(Math.random() * 15 + 1);
+    rand = rand < 10 ? "0"+rand : rand.toString();
+    user.profile = user.profile || {};
+    user.profile.avatar = user.profile.avatar || "base" + rand;
+    return user;
+  });
+
   // This code only runs on the server
   Meteor.users.find({ "status.online": true }).observe({
     added: function(user) {

@@ -35,6 +35,12 @@ $brand-primary: #2196f3;
     visibility: hidden;
   }
 
+  .glyphicon-ok-circle{
+    margin-bottom: 2px;
+    margin-right: 3px;
+  }
+
+
   .icon{
     &:hover{ color: #666; }
     font-size: 1.1em;
