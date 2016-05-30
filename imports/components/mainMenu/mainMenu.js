@@ -37,6 +37,11 @@ class MainMenuCtrl {
     return this.room && this.room.admins.indexOf(Meteor.userId()) != -1;
   }
 
+  changeAvatar() {
+    $("#avatars").fadeIn(200);
+    $("#content-wrapper").fadeOut(200);
+  }
+
   changeName() {
     this.editName = true;
     setTimeout(() => {

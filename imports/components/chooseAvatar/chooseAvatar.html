@@ -1,0 +1,26 @@
+<div id="avatars">
+  <div class="row-fluid header">
+    <div class="dropdown">
+      <button class="btn btn-link dropdown-toggle" type="button" id="themes" data-toggle="dropdown">
+        {{ $ctrl.themes[$ctrl.themeIndex].title }}
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <li ng-repeat="theme in $ctrl.themes" ng-click="$ctrl.themeIndex = $index"><a href="#">{{ theme.title }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="body">
+    <span ng-repeat="avatar in $ctrl.themes[$ctrl.themeIndex].avatars" ng-click="$ctrl.selectAvatar(avatar)" ng-class="{ current: $ctrl.myAvatar(avatar) }" class="avatar">
+      <img ng-src="https://s3-us-west-1.amazonaws.com/plugdj-avatars/standing/{{avatar}}.gif" class="standing"/>
+      <img ng-src="https://s3-us-west-1.amazonaws.com/plugdj-avatars/dancing/{{avatar}}.gif" class="dancing" />
+    </span>
+  </div>
+
+  <div class="footer">
+    <div class="actions pull-right">
+      <button type="button" class="btn btn-link" ng-click="$ctrl.close()">Close</button>
+    </div>
+  </div>
+</div>

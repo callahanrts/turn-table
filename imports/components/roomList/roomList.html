@@ -17,7 +17,7 @@
       <ul>
         <li ng-repeat="room in $ctrl.rooms" ng-click="$ctrl.enterRoom(room)">
           <span>{{ room.name }}</span>
-          <span class="glyphicon glyphicon-trash remove" ng-click="$ctrl.removeRoom(room)"></span>
+          <span class="glyphicon glyphicon-trash remove" ng-click="$ctrl.removeRoom(room)" ng-show="$ctrl.myRoom(room)"></span>
         </li>
       </ul>
 

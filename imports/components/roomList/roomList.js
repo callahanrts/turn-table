@@ -29,6 +29,10 @@ class RoomListCtrl {
     return !!Meteor.userId();
   }
 
+  myRoom(room) {
+    return room.owner == Meteor.userId();
+  }
+
   removeRoom(room) {
     Meteor.call('rooms.remove', room._id)
   }

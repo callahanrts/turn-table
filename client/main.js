@@ -8,6 +8,7 @@ import cpanel from         '../imports/components/controlPanel/controlPanel';
 import playlists from      '../imports/components/playlists/playlists';
 import queue from          '../imports/components/queue/queue';
 import playlistEditor from '../imports/components/playlistEditor/playlistEditor';
+import chooseAvatar from   '../imports/components/chooseAvatar/chooseAvatar';
 import roomList from       '../imports/components/roomList/roomList';
 import mainMenu from       '../imports/components/mainMenu/mainMenu';
 
@@ -32,6 +33,7 @@ angular.module('turn-table', [
   cpanel.name,
   playlists.name,
   playlistEditor.name,
+  chooseAvatar.name,
   roomList.name,
   queue.name,
   mainMenu.name,
