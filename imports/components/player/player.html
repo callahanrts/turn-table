@@ -2,7 +2,10 @@
 
   <div id="video-player" ng-class="$ctrl.size">
     <div class="info">
-      <div class="playing">{{ $ctrl.room.playing.title }} - {{ $ctrl.room.playing.user.profile.score }}</div>
+      <div class="playing">
+        <span ng-show="$ctrl.playing()"> {{ $ctrl.room.playing.title }} - {{ $ctrl.room.playing.user.profile.score }} </span>
+        <span ng-hide="$ctrl.playing()">Nothing playing</span>
+      </div>
       <div class="pull-right color" ng-show="($ctrl.admin() && $ctrl.playing()) || $ctrl.currentlyPlaying()" ng-click="$ctrl.skip()">
         <span class="pull-right">
           <span class="fa fa-chevron-right"></span>
