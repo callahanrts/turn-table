@@ -1,12 +1,14 @@
 <div id="avatars">
   <div class="row-fluid header">
     <div class="dropdown">
-      <button class="btn btn-link dropdown-toggle" type="button" id="themes" data-toggle="dropdown">
+      <button class="btn btn-link dropdown-toggle" id="themes" data-toggle="dropdown">
         {{ $ctrl.themes[$ctrl.themeIndex].title }}
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <li ng-repeat="theme in $ctrl.themes" ng-click="$ctrl.themeIndex = $index"><a href="#">{{ theme.title }}</a></li>
+      <ul class="dropdown-menu">
+        <li ng-repeat="theme in $ctrl.themes" ng-click="$ctrl.themeIndex = $index">
+          <a href="javascript:void(0)">{{ theme.title }}</a>
+        </li>
       </ul>
     </div>
   </div>
