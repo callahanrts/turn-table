@@ -1,20 +1,45 @@
 #room-list {
   padding: 20px;
-  max-width: 300px;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
 
   ul {
     padding: 0;
     list-style: none;
 
     li {
+      float: left;
+      margin: 5px;
+      img{ width: 100%;}
+      width: 250px;
+      height: 187px;
       cursor: pointer;
+      position: relative;
       &:hover{
         background-color: #EFEFEF;
         .remove{ display: block; }
       }
       > span{ vertical-align: middle; }
-      padding: 5px 10px;
-      .remove { display: none; float: right; padding-top: 4px;}
+      .remove {
+        color: #fff;
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        display: none;
+        float: right;
+        padding-top: 4px;
+      }
+      .details {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding: 2px 5px;
+        color: white;
+        background-color: rgba(0,0,0,0.7);
+      }
+      .audience{ padding: 0 5px;}
     }
 
   }

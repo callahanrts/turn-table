@@ -41,6 +41,15 @@ class RoomListCtrl {
     this.$state.go('room', { roomId: room._id })
   }
 
+  audience(room) {
+    let audience = 0;
+    if(Array.isArray(room.audience)) {
+      audience = room.audience.length;
+    }
+    if(!!room.playing.user){ audience++; }
+    return audience;
+  }
+
 }
 
 RoomListCtrl.$inject = ['$scope', '$state']

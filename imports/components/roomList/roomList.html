@@ -1,27 +1,32 @@
-<div class="container-fluid">
-  <div id="room-list">
+<div id="room-list">
 
-    <login-buttons></login-buttons>
+  <login-buttons></login-buttons>
 
-    <div ng-show="$ctrl.loggedIn()">
+  <div ng-show="$ctrl.loggedIn()">
 
-      <div class="form-group">
-        <label for="roomName">Venue Name</label>
-        <input id="roomName" type="text" class="form-control" ng-model="roomName">
-      </div>
-
-      <div class="form-group">
-        <button class="btn btn-primary form-control" ng-click="$ctrl.createRoom(roomName)">New Venue</button>
-      </div>
-
-      <ul>
-        <li ng-repeat="room in $ctrl.rooms" ng-click="$ctrl.enterRoom(room)">
-          <span>{{ room.name }}</span>
-          <span class="glyphicon glyphicon-trash remove" ng-click="$ctrl.removeRoom(room)" ng-show="$ctrl.myRoom(room)"></span>
-        </li>
-      </ul>
-
+    <div class="form-group">
+      <label for="roomName">Venue Name</label>
+      <input id="roomName" type="text" class="form-control" ng-model="roomName">
     </div>
 
+    <div class="form-group">
+      <button class="btn btn-primary form-control" ng-click="$ctrl.createRoom(roomName)">New Venue</button>
+    </div>
+
+    <ul>
+      <li ng-repeat="room in $ctrl.rooms" ng-click="$ctrl.enterRoom(room)">
+        <img ng-src="http://img.youtube.com/vi/{{room.playing.id}}/hqdefault.jpg" />
+        <span class="glyphicon glyphicon-trash remove" ng-click="$ctrl.removeRoom(room)" ng-show="$ctrl.myRoom(room)"></span>
+        <div class="details">
+          <span>{{ room.name }}</span>
+          <span class="pull-right">
+            <span class="fa fa-users"></span>
+            <span class="audience">{{ $ctrl.audience(room) }}</span>
+          </span>
+        </div>
+      </li>
+    </ul>
+
   </div>
+
 </div>
