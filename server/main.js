@@ -9,6 +9,7 @@ import '../imports/api/users.js';
 Meteor.startup(() => {
   // code to run on server at startup
   Future = Npm.require('fibers/future');
+
   const GOOGLE_API_KEY      = process.env.GOOGLE_API_KEY
   const GOOGLE_APP_SECRET   = process.env.GOOGLE_APP_SECRET
   const FACEBOOK_APP_ID     = process.env.FACEBOOK_APP_ID
