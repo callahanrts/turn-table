@@ -1,24 +1,30 @@
 #room-list {
-  padding: 20px;
+  padding: 20px 20px 65px 20px;
   height: 100%;
   width: 100%;
   overflow: auto;
+  background-color: #333;
 
   ul {
+    text-align: center;
     padding: 0;
     list-style: none;
+    overflow: auto;
 
+    $room-pane-width: 320px;
+    $room-pane-height: 180px;
     li {
-      float: left;
+      background-color: #000;
       margin: 5px;
       img{ width: 100%;}
-      width: 250px;
-      height: 187px;
+      width: $room-pane-width;
+      height: $room-pane-height;
       cursor: pointer;
       position: relative;
+      display: inline-block;
       &:hover{
-        background-color: #EFEFEF;
         .remove{ display: block; }
+        .details{ color: #fff; }
       }
       > span{ vertical-align: middle; }
       .remove {
@@ -31,17 +37,32 @@
         padding-top: 4px;
       }
       .details {
+        text-align: left;
+        .name{
+          width: $room-pane-width - 65px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: inline-block;
+        }
+        span{ font-size: 13px; }
+        font-size: 0; // to remove excess padding from white-space settings
         width: 100%;
         position: absolute;
         bottom: 0;
         left: 0;
         padding: 2px 5px;
-        color: white;
+        color: #bbb;
         background-color: rgba(0,0,0,0.7);
       }
       .audience{ padding: 0 5px;}
     }
 
+  }
+
+  .new-venue{
+    padding: 15px 0;
+    input{ margin-right: 15px; width: 200px; }
   }
 
 }

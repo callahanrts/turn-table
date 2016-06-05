@@ -50,6 +50,13 @@ class RoomListCtrl {
     return audience;
   }
 
+  nowPlayingStyle(room) {
+    if(!!room.playing.id){
+      return { 'background-image': 'url(http://img.youtube.com/vi/'+ room.playing.id +'/mqdefault.jpg)' }
+    }
+    return {};
+  }
+
 }
 
 RoomListCtrl.$inject = ['$scope', '$state']

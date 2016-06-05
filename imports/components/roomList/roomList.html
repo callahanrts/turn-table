@@ -1,24 +1,23 @@
 <div id="room-list">
 
-  <login-buttons></login-buttons>
+  <div class="login-btn">
+    <login-buttons></login-buttons>
+  </div>
 
-  <div ng-show="$ctrl.loggedIn()">
+  <div ng-show="$ctrl.loggedIn()" class="venue-wrapper">
 
-    <div class="form-group">
-      <label for="roomName">Venue Name</label>
-      <input id="roomName" type="text" class="form-control" ng-model="roomName">
-    </div>
+    <form class="form-inline new-venue">
+      <!-- <label for="roomName">Venue Name</label> -->
+      <input id="roomName" type="text" class="form-control" ng-model="roomName" placeholder="Venue Name">
 
-    <div class="form-group">
-      <button class="btn btn-primary form-control" ng-click="$ctrl.createRoom(roomName)">New Venue</button>
-    </div>
+      <button class="btn btn-primary" ng-click="$ctrl.createRoom(roomName)">New Venue</button>
+    </form>
 
     <ul>
-      <li ng-repeat="room in $ctrl.rooms" ng-click="$ctrl.enterRoom(room)">
-        <img ng-src="http://img.youtube.com/vi/{{room.playing.id}}/hqdefault.jpg" />
+      <li ng-repeat="room in $ctrl.rooms" ng-click="$ctrl.enterRoom(room)" ng-style="$ctrl.nowPlayingStyle(room)">
         <span class="glyphicon glyphicon-trash remove" ng-click="$ctrl.removeRoom(room)" ng-show="$ctrl.myRoom(room)"></span>
         <div class="details">
-          <span>{{ room.name }}</span>
+          <span class="name">{{ room.name }}</span>
           <span class="pull-right">
             <span class="fa fa-users"></span>
             <span class="audience">{{ $ctrl.audience(room) }}</span>
