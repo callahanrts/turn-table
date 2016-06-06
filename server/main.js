@@ -17,14 +17,17 @@ Meteor.startup(() => {
   // code to run on server at startup
   Future = Npm.require('fibers/future');
 
-  let gsettings = Meteor.settings.private.services.google;
-  configureService("google", gsettings.api_key, gsettings.secret);
+  if(!!Meteor.settings) {
+    let gsettings = Meteor.settings.private.services.google;
+    configureService("google", gsettings.api_key, gsettings.secret);
 
-  let fbsettings = Meteor.settings.private.services.facebook;
-  configureService("facebook", fbsettings.api_key, fbsettings.secret);
+    let fbsettings = Meteor.settings.private.services.facebook;
+    configureService("facebook", fbsettings.api_key, fbsettings.secret);
 
-  let twsettings = Meteor.settings.private.services.twitter;
-  configureService("twitter", twsettings.api_key, twsettings.secret);
+    let twsettings = Meteor.settings.private.services.twitter;
+    configureService("twitter", twsettings.api_key, twsettings.secret);
+  }
+
 });
 
 var configureService = (service, clientId, secret) => {
