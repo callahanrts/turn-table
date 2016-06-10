@@ -21,7 +21,7 @@ class roomService {
   joinRoom(room) {
     this.room = room;
     this.rootScope.$broadcast('room-joined', { room: room });
-    Meteor.call("room.join", room._id);
+    if(Meteor.userId()) Meteor.call("room.join", room._id);
   }
 
   joinQueue() {

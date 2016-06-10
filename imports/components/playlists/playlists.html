@@ -1,4 +1,8 @@
 <div id="playlists">
+  <div class="no-user" ng-hide="$ctrl.user">
+    You must be signed in to create a playlist!
+  </div>
+
   <ul>
     <li ng-repeat="p in $ctrl.playlists" ng-class="{ active: !!p.active }" ng-click="$ctrl.playlistService.activate(p, $event)">
       <span class="glyphicon glyphicon-ok-circle" ng-show="!!p.active"></span>

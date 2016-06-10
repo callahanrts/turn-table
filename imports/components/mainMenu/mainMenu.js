@@ -20,6 +20,7 @@ class MainMenuCtrl {
     this.settingsService = settingsService;
     this.settings = settingsService.get("mainMenu") || this.defaultSettings();
     this.minimized = this.settings.minimized;
+    if(!this.loggedIn()) this.minimized = false;
     this.editName = false;
   }
 

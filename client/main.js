@@ -66,7 +66,7 @@ angular.module('turn-table', [
     $rootScope.$on('$stateChangeStart',
     function(event, toState, toParams, fromState, fromParams){
       // Clear the user's current room
-      Meteor.call("user.checkLogout", Meteor.userId());
+      if(Meteor.userId()) Meteor.call("user.checkLogout", Meteor.userId());
     })
   }])
 
