@@ -8,6 +8,7 @@ import youtubeService from '../../services/youtube.js';
 class PlaylistEditorCtrl {
 
   constructor($scope, playlistService, $timeout, youtubeService, $interval) {
+    SC.initialize({ client_id: Meteor.settings.public.apis.soundcloud.client_id });
     this.$interval = $interval;
     var $ctrl = this;
     this.currentPlaylist = {};
@@ -16,7 +17,7 @@ class PlaylistEditorCtrl {
     this.$modal = $("#new-playlist-modal");
     this.ps = playlistService;
     this.ytService = youtubeService;
-    this.source = "youtube";
+    this.source = "soundcloud";
 
     this.searchResults = [];
     this.selectedTracks = [];
@@ -42,7 +43,13 @@ class PlaylistEditorCtrl {
         $timeout.cancel(timeoutPromise);  //does nothing, if timeout alrdy done
         timeoutPromise = $timeout(function(){   //Set timeout
           $scope.loading = true;
-          $ctrl.searchYoutube(query);
+          if(/soundcloud.com/.test(query)){
+            $ctrl.searchSoundcloud(query, true)
+          } else if(/youtube.com/.test(query)){
+            $ctrl.searchYoutube(query)
+          } else {
+            $ctrl.source == "soundcloud" ? $ctrl.searchSoundcloud(query) : $ctrl.searchYoutube(query);
+          }
         }, delayInMs);
       }
     });
@@ -60,6 +67,34 @@ class PlaylistEditorCtrl {
           duration: item.contentDetails.duration
         }
       });
+    })
+  }
+
+  searchSoundcloud(query, isUrl) {
+    let $ctrl = this;
+    if(!!isUrl){
+      SC.resolve(query).then((resp) => {
+        let tracks = resp.kind == "playlist" ? resp.tracks : [resp];
+        $ctrl.parseSCTracks(tracks);
+      })
+    } else {
+      SC.get('/tracks', {
+        q: query,
+        limit: 25
+      }).then(function(tracks) {
+        $ctrl.parseSCTracks(tracks);
+      });
+    }
+  }
+
+  parseSCTracks(tracks) {
+    this.searchResults = _.map(tracks, (track) => {
+      return {
+        id: track.id,
+        image: track.artwork_url || track.user.avatar_url,
+        title: track.title,
+        source: "soundcloud"
+      }
     })
   }
 
