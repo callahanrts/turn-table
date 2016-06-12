@@ -34,28 +34,51 @@ Meteor.methods({ 'youtube.search' (query) {
 
 });
 
-var importPlaylist = (future, id) => {
-  YoutubeApi.playlistItems.list({
+var importPlaylist = (future, id, pageToken) => {
+  let items = [];
+  let result = {};
+  do {
+    result = playlistItems(id, result.pageToken).wait();
+    items = items.concat(result.items);
+  } while(!!result.pageToken)
+  future.return({ items: items });
+}
+
+var playlistItems = (id, pageToken) => {
+  let future = new Future();
+  let searchOptions = {
     playlistId: id,
     part: 'id,contentDetails',
     maxResults: 50
-  }, (err, data) => {
-    let items = !!err ? [] : data.items
-    importVideos(future, _.compact(items.map((el) => {
-      return el.contentDetails.videoId;
-    })));
-
+  }
+  if(!!pageToken){ searchOptions.pageToken = pageToken; }
+  YoutubeApi.playlistItems.list(searchOptions, (err, data) => {
+    let items = !!err ? [] : data.items;
+    let ids = _.compact(items.map((el) => { return el.contentDetails.videoId; }))
+    let videos = importVideos(future, ids, data.nextPageToken);
+    //future.return({ items: videos, pageToken: data.pageToken });
   })
+  return future;
 }
 
-var importVideos = (future, ids) => {
+var importVideos = (future, ids, pageToken) => {
   YoutubeApi.videos.list({
     part: "id,snippet,contentDetails",
     id: ids.join(',')
   }, (err, data) => {
-    future['return'](data, err);
+    //if(!!err) future.throw(err);
+    future.return({ items: data.items, pageToken: pageToken });
   })
 }
+
+// var importVideos = (future, ids, pageToken) => {
+//   YoutubeApi.videos.list({
+//     part: "id,snippet,contentDetails",
+//     id: ids.join(',')
+//   }, (err, data) => {
+//     future['return'](data, err);
+//   })
+// }
 
 var searchYoutube = (future, options) => {
   options = options || {}

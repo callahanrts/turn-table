@@ -1,5 +1,10 @@
 # Turn Table
 
+## TODO
+Add dialog that pops up when there will be a duplicate added to a playlist
+Add a loading dialog during track search/import
+
+
 ## Structure (from meteor)
 
 http://guide.meteor.com/structure.html
