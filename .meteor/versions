@@ -83,6 +83,7 @@ mongo-livedata@1.0.12
 mrt:jquery-imagesloaded@0.0.2
 mrt:jquery-masonry@0.1.0
 mrt:jquery-ui@1.9.2
+mrt:soundcloud@0.1.1
 npm-bcrypt@0.8.5
 npm-container@1.2.0
 npm-mongo@1.4.43

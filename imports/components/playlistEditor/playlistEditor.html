@@ -14,7 +14,18 @@
     </div>
 
     <div class="col-sm-4" id="search">
-      <input type="text" ng-model="query" placeholder="Search or import URL" class="form-control" />
+      <div class="wrapper">
+        <div class="left-col">
+          <span class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-{{$ctrl.source}}"></span> <span class="caret"></span></span>
+          <ul class="dropdown-menu">
+            <li><a href="javascript:void(0)" ng-click="$ctrl.source = 'youtube'"><span class="fa fa-youtube"></span> YouTube</a></li>
+            <li><a href="javascript:void(0)" ng-click="$ctrl.source = 'soundcloud'"><span class="fa fa-soundcloud"></span> SoundCloud</a></li>
+          </ul>
+        </div>
+        <div class="right-col">
+          <input type="text" ng-model="query" placeholder="Search or import URL" class="form-control" />
+        </div>
+      </div>
     </div>
 
   </div>

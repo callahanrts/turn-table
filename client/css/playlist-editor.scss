@@ -150,4 +150,35 @@
     box-shadow: 3px 3px 5px rgba(33, 150, 243, .2)
   }
 
+  #search{
+    span.dropdown-toggle{ font-size: 25px; }
+    .wrapper {
+      border: 2px solid #2196f3;
+      .left-col{ background-color: #2196f3; }
+      &.yt {
+        border: 2px solid #e51c23;
+        .left-col { background-color: #e51c23; }
+      }
+      &.sc {
+        border: 2px solid #f50;
+        .left-col { background-color: #f50; }
+      }
+      width: 100%;
+      padding: 0;
+      overflow: auto;
+    }
+    .left-col {
+      cursor: pointer;
+      float: left;
+      //width: 100px;
+      color: white;
+      padding: 0 10px;
+    }
+    .right-col {
+      padding: 3px 10px 0 10px;
+      width: auto;
+      overflow: hidden;
+    }
+  }
+
 }

@@ -15,6 +15,8 @@ class PlaylistEditorCtrl {
     this.edit = false;
     this.$modal = $("#new-playlist-modal");
     this.ps = playlistService;
+    this.ytService = youtubeService;
+    this.source = "youtube";
 
     this.searchResults = [];
     this.selectedTracks = [];
@@ -31,7 +33,6 @@ class PlaylistEditorCtrl {
     $scope.ps = playlistService;
     $scope.$watch('ps.currentPlaylist', function(newVal) {
       $ctrl.currentPlaylist = newVal;
-      // $ctrl.createGrid(newVal.tracks || []);
     });
 
     var timeoutPromise;
@@ -40,23 +41,26 @@ class PlaylistEditorCtrl {
       if(!!query) {
         $timeout.cancel(timeoutPromise);  //does nothing, if timeout alrdy done
         timeoutPromise = $timeout(function(){   //Set timeout
-            $scope.loading = true;
-            youtubeService.searchFor(query).then((resp, err) => {
-              $ctrl.searchResults = resp.items.map((item) => {
-                return {
-                  id: item.id,
-                  title: item.snippet.title,
-                  image: item.snippet.thumbnails.default.url,
-                  duration: item.contentDetails.duration
-                }
-              });
-
-              // $ctrl.createGrid($ctrl.searchResults);
-            })
+          $scope.loading = true;
+          $ctrl.searchYoutube(query);
         }, delayInMs);
       }
     });
 
+  }
+
+  searchYoutube(query) {
+    let $ctrl = this;
+    this.ytService.searchFor(query).then((resp, err) => {
+      $ctrl.searchResults = resp.items.map((item) => {
+        return {
+          id: item.id,
+          title: item.snippet.title,
+          image: item.snippet.thumbnails.default.url,
+          duration: item.contentDetails.duration
+        }
+      });
+    })
   }
 
   importAll() {
@@ -76,7 +80,6 @@ class PlaylistEditorCtrl {
     this.selectedTracks = [];
     this.searchResults = [];
     this.savePlaylist(playlist);
-    // this.createGrid(playlist.tracks);
   }
 
   previewTrack() {
@@ -85,7 +88,6 @@ class PlaylistEditorCtrl {
   clearSearch(){
     this.selectedTracks = [];
     this.searchResults = [];
-    // this.createGrid(this.ps.currentPlaylist.tracks)
   }
 
   selectTrack(track) {
@@ -99,7 +101,6 @@ class PlaylistEditorCtrl {
   removeSelected(playlist){
     this.ps.currentPlaylist.tracks = _.without.apply(this, [playlist.tracks].concat(this.selectedTracks));
     this.selectedTracks = [];
-    // this.createGrid(playlist.tracks);
   }
 
   trackSelected(track) {
@@ -127,25 +128,6 @@ class PlaylistEditorCtrl {
   hasSearchResults(){
     return this.searchResults.length > 0;
   }
-
-  // createGrid(tracks) {
-  //   let i = this.$interval(() => {
-  //     // Wait for angular to finish ng-repeat before calling masonry
-  //     if(tracks.length == $("#tracks li").length) {
-  //       this.$interval.cancel(i);
-  //       // Destroy and recreate grid. Not as clean as remove/add/relayout :/
-  //       $grid = $("#tracks");
-  //       $grid.imagesLoaded(function(){
-  //         if($grid.hasClass("masonry")) $grid.masonry('destroy');
-  //         $grid.masonry({
-  //           columnWidth: 200,
-  //           itemSelector: 'li',
-  //           transitionDuration: 0,
-  //         });
-  //       });
-  //     }
-  //   });
-  // }
 
   editTitle(edit, save) {
     if(save){ this.savePlaylist() }
