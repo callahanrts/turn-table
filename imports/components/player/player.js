@@ -13,9 +13,10 @@ const MAX_WIDTH=450;
 
 class PlayerCtrl {
 
-  constructor($scope, $rootScope, roomService, $stateParams, $reactive) {
+  constructor($scope, $rootScope, roomService, $stateParams, $reactive, $sce) {
     $scope.viewModel(this);
     this.subscribe('rooms');
+    this.sce = $sce;
     Meteor.subscribe('users', $stateParams.roomId);
     let reactiveContext = $reactive(this).attach($scope);
     let $ctrl = this;
@@ -29,13 +30,13 @@ class PlayerCtrl {
       //controls: 0,
       autoplay: 1
     };
-    let trackLastChanged = 0;
+    this.trackLastChanged = 0;
 
     reactiveContext.helpers({
       room: () => {
-        trackLastChanged = new Date().getTime();
+        this.trackLastChanged = new Date().getTime();
         let room = Rooms.findOne($stateParams.roomId);
-        console.log(room);
+        setTimeout(() => { this.initSCWidget() }, 0);
         return  room
       },
 
@@ -53,7 +54,7 @@ class PlayerCtrl {
     $scope.$on('youtube.player.ready', function($event, player) {
       Meteor.call("room.elapsedTime", $ctrl.room._id, (err, time) => {
         if(angular.isDefined(time)) {
-          let diff = (new Date().getTime() - trackLastChanged);
+          let diff = (new Date().getTime() - $ctrl.trackLastChanged);
           player.seekTo((time / 1000) + diff / 1000);
         } else {
           console.log(err);
@@ -61,6 +62,51 @@ class PlayerCtrl {
       })
     });
 
+  }
+
+  initSCWidget() {
+    console.log("init sc widget")
+    let $ctrl = this;
+    if(this.playing() && this.soundcloudTrack()) {
+      let el = document.getElementById(this.room.playing.id);
+      let w = SC.Widget(el);
+      window.widget = w;
+
+      // When a track begins to play, seek to the current time
+      w.bind(SC.Widget.Events.PLAY, () => {
+        Meteor.call("room.elapsedTime", $ctrl.room._id, (err, time) => {
+          if(angular.isDefined(time)) {
+            let diff = (new Date().getTime() - $ctrl.trackLastChanged);
+            w.seekTo(time + diff);
+          } else {
+            console.log(err);
+          }
+        })
+      });
+
+      // Play the next track when the current one is finished playing
+      w.bind(SC.Widget.Events.FINISH, () => {
+        console.log("finish");
+        w.unbind(SC.Widget.Events.PLAY);
+        w.unbind(SC.Widget.Events.FINISH);
+        Meteor.call("room.playNext", $ctrl.room._id)
+      })
+
+      return w;
+    }
+
+    return null;
+  }
+
+  soundcloudUrl() {
+    let params = "&auto_play=true&buying=false&liking=false&download=false&sharing=false&show_artwork=true&show_comments=false&show_playcount=false&show_user=false&visual=true"
+    let url = "https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F" + this.room.playing.id + params;
+    url = this.sce.trustAsResourceUrl(url);
+    return url;
+  }
+
+  soundcloudTrack() {
+    return this.playing() && this.room.playing.source == "soundcloud"
   }
 
   djAvatar() {
@@ -104,7 +150,7 @@ class PlayerCtrl {
 
   playing(userId) {
     // Someone is playing
-    let playing = this.room && this.room.playing.user;
+    let playing = !!this.room && !!this.room.playing.user;
 
     // User is playing
     if(!!userId){
@@ -148,7 +194,7 @@ class PlayerCtrl {
 
 }
 
-PlayerCtrl.$inject = ['$scope', '$rootScope', roomService.name, '$stateParams', '$reactive'];
+PlayerCtrl.$inject = ['$scope', '$rootScope', roomService.name, '$stateParams', '$reactive', '$sce'];
 
 export default angular.module('player', [
   angularMeteor,
