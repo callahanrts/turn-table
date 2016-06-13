@@ -36,7 +36,7 @@ class PlayerCtrl {
       room: () => {
         this.trackLastChanged = new Date().getTime();
         let room = Rooms.findOne($stateParams.roomId);
-        setTimeout(() => { this.initSCWidget() }, 0);
+        setTimeout(() => { this.initSCWidget() }, 5000);
         return  room
       },
 
@@ -65,12 +65,10 @@ class PlayerCtrl {
   }
 
   initSCWidget() {
-    console.log("init sc widget")
     let $ctrl = this;
     if(this.playing() && this.soundcloudTrack()) {
       let el = document.getElementById(this.room.playing.id);
       let w = SC.Widget(el);
-      window.widget = w;
 
       // When a track begins to play, seek to the current time
       w.bind(SC.Widget.Events.PLAY, () => {
@@ -86,7 +84,6 @@ class PlayerCtrl {
 
       // Play the next track when the current one is finished playing
       w.bind(SC.Widget.Events.FINISH, () => {
-        console.log("finish");
         w.unbind(SC.Widget.Events.PLAY);
         w.unbind(SC.Widget.Events.FINISH);
         Meteor.call("room.playNext", $ctrl.room._id)
