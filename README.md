@@ -2,7 +2,11 @@
 
 ## TODO
 Add dialog that pops up when there will be a duplicate added to a playlist
+
 Add a loading dialog during track search/import
+
+Figure out how to let youtube videos start playing while the tab is inactive. Soundcloud
+can do it so why can't youtube?
 
 
 ## Structure (from meteor)
