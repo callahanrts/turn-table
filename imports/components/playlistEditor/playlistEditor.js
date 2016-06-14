@@ -8,7 +8,9 @@ import youtubeService from '../../services/youtube.js';
 class PlaylistEditorCtrl {
 
   constructor($scope, playlistService, $timeout, youtubeService, $interval) {
-    SC.initialize({ client_id: Meteor.settings.public.apis.soundcloud.client_id });
+    if(!!Meteor.settings){
+      SC.initialize({ client_id: Meteor.settings.public.apis.soundcloud.client_id });
+    }
     this.$interval = $interval;
     var $ctrl = this;
     this.currentPlaylist = {};
