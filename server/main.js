@@ -16,8 +16,26 @@ import '../imports/api/users.js';
 Meteor.startup(() => {
   // code to run on server at startup
   Future = Npm.require('fibers/future');
+  Meteor.settings = Meteor.settings || {
+    private: {
+      services: {
+        google: { api_key: "", secret: "" },
+        facebook: { api_key: "", secret: "" },
+        twitter: { api_key: "", secret: "" }
+      },
+      apis: {
+        soundcloud: { client_id: "", client_secret: "" }
+      }
+    },
+    kadira: { appId: "", appSecret: "" },
+    public: {
+      apis: {
+        soundcloud: { client_id: "" }
+      }
+    }
+  }
 
-  if(!!Meteor.settings) {
+  if(!!Meteor.settings && !!Meteor.settings.private) {
     let gsettings = Meteor.settings.private.services.google;
     configureService("google", gsettings.api_key, gsettings.secret);
 
