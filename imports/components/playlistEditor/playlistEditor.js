@@ -92,7 +92,7 @@ class PlaylistEditorCtrl {
     this.searchResults = _.map(tracks, (track) => {
       return {
         id: track.id,
-        image: track.artwork_url || track.user.avatar_url,
+        image: track.artwork_url.replace("large", "t500x500") || track.user.avatar_url,
         title: track.title,
         source: "soundcloud"
       }

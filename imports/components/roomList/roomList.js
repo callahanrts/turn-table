@@ -52,7 +52,7 @@ class RoomListCtrl {
 
   nowPlayingStyle(room) {
     if(!!room.playing.id){
-      return { 'background-image': 'url(http://img.youtube.com/vi/'+ room.playing.id +'/mqdefault.jpg)' }
+      return { 'background-image': 'url(' + room.playing.image + ')' }
     }
     return {};
   }
