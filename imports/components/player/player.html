@@ -17,7 +17,7 @@
       <youtube-video video-id="$ctrl.room.playing.id" player-vars="$ctrl.playerVars" class="embed-responsive-item"></youtube-video>
     </div>
     <div class="embed-responsive embed-responsive-16by9" ng-if="$ctrl.playing()" ng-show="$ctrl.soundcloudTrack()">
-      <iframe id="{{$ctrl.room.playing.id}}" scrolling="no" frameborder="no" ng-src="{{$ctrl.soundcloudUrl()}}" ng-show="$ctrl.soundcloudTrack()"></iframe>
+      <iframe id="{{$ctrl.room.playing.id}}" iframe-onload="$ctrl.onload()" scrolling="no" frameborder="no" ng-src="{{$ctrl.soundcloudUrl()}}" ng-show="$ctrl.soundcloudTrack()"></iframe>
     </div>
 
     <div id="respond" ng-if="!!$ctrl.room.playing.id">

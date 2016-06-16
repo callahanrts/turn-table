@@ -13,10 +13,12 @@ const MAX_WIDTH=450;
 
 class PlayerCtrl {
 
-  constructor($scope, $rootScope, roomService, $stateParams, $reactive, $sce) {
+  constructor($scope, $rootScope, roomService, $stateParams, $reactive, $sce, $window, $timeout) {
     $scope.viewModel(this);
+    this.timeout = $timeout;
     this.subscribe('rooms');
     this.sce = $sce;
+    this.window = $window;
     Meteor.subscribe('users', $stateParams.roomId);
     let reactiveContext = $reactive(this).attach($scope);
     let $ctrl = this;
@@ -36,7 +38,6 @@ class PlayerCtrl {
       room: () => {
         this.trackLastChanged = new Date().getTime();
         let room = Rooms.findOne($stateParams.roomId);
-        setTimeout(() => { this.initSCWidget() }, 5000);
         return  room
       },
 
@@ -62,6 +63,22 @@ class PlayerCtrl {
       })
     });
 
+    this.initApi()
+  }
+
+  initApi() {
+    this.window.client = {
+      woot: () => { this.upvote() },
+      meh: () => { this.downvote() },
+      grab: () => { this.grab() },
+      skip: () => { this.skip() }
+    }
+  }
+
+  onload() {
+    this.timeout(() => {
+      this.initSCWidget();
+    }, 0)
   }
 
   initSCWidget() {
@@ -70,18 +87,6 @@ class PlayerCtrl {
       let el = document.getElementById(this.room.playing.id);
       let w = SC.Widget(el);
 
-      // When a track begins to play, seek to the current time
-      w.bind(SC.Widget.Events.PLAY, () => {
-        Meteor.call("room.elapsedTime", $ctrl.room._id, (err, time) => {
-          if(angular.isDefined(time)) {
-            let diff = (new Date().getTime() - $ctrl.trackLastChanged);
-            w.seekTo(time + diff);
-          } else {
-            console.log(err);
-          }
-        })
-      });
-
       // Play the next track when the current one is finished playing
       w.bind(SC.Widget.Events.FINISH, () => {
         w.unbind(SC.Widget.Events.PLAY);
@@ -89,10 +94,17 @@ class PlayerCtrl {
         Meteor.call("room.playNext", $ctrl.room._id)
       })
 
-      return w;
+      Meteor.call("room.elapsedTime", $ctrl.room._id, (err, time) => {
+        if(angular.isDefined(time)) {
+          let diff = (new Date().getTime() - $ctrl.trackLastChanged);
+          w.seekTo(time + diff);
+        } else {
+          console.log(err);
+        }
+      })
+
     }
 
-    return null;
   }
 
   soundcloudUrl() {
@@ -167,7 +179,7 @@ class PlayerCtrl {
       if(!found) { this.position(user._id); }
     });
 
-    setTimeout(() => {
+    this.timeout(() => {
       _.each(this.positions, (pos) => {
         $("."+pos._id).css(pos.css);
       })
@@ -191,7 +203,7 @@ class PlayerCtrl {
 
 }
 
-PlayerCtrl.$inject = ['$scope', '$rootScope', roomService.name, '$stateParams', '$reactive', '$sce'];
+PlayerCtrl.$inject = ['$scope', '$rootScope', roomService.name, '$stateParams', '$reactive', '$sce', '$window', '$timeout'];
 
 export default angular.module('player', [
   angularMeteor,
@@ -201,3 +213,18 @@ export default angular.module('player', [
     templateUrl: 'imports/components/player/player.html',
     controller: PlayerCtrl
   });
+
+angular
+  .module('player')
+  .directive('iframeOnload', [function(){
+    return {
+        scope: {
+            callBack: '&iframeOnload'
+        },
+        link: function(scope, element, attrs){
+            element.on('load', function(){
+                return scope.callBack();
+            })
+        }
+    }}])
+
