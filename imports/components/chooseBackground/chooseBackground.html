@@ -1,0 +1,13 @@
+<div id="backgrounds">
+  <div class="body">
+    <div ng-repeat="bg in $ctrl.backgrounds" ng-click="$ctrl.selectBackground(bg)" ng-class="{ current: $ctrl.myBackground(bg) }" class="background">
+      <img ng-src="https://s3-us-west-1.amazonaws.com/plugdj-avatars/backgrounds/{{bg}}" />
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="actions pull-right">
+      <button type="button" class="btn btn-link" ng-click="$ctrl.close()">Close</button>
+    </div>
+  </div>
+</div>

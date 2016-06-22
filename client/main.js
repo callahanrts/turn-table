@@ -9,6 +9,7 @@ import playlists from      '../imports/components/playlists/playlists';
 import queue from          '../imports/components/queue/queue';
 import playlistEditor from '../imports/components/playlistEditor/playlistEditor';
 import chooseAvatar from   '../imports/components/chooseAvatar/chooseAvatar';
+import chooseBackground from '../imports/components/chooseBackground/chooseBackground';
 import roomList from       '../imports/components/roomList/roomList';
 import mainMenu from       '../imports/components/mainMenu/mainMenu';
 
@@ -34,6 +35,7 @@ angular.module('turn-table', [
   playlists.name,
   playlistEditor.name,
   chooseAvatar.name,
+  chooseBackground.name,
   roomList.name,
   queue.name,
   mainMenu.name,

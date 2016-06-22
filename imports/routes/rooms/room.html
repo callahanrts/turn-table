@@ -2,9 +2,10 @@
 <div class="container-fluid" id="main-container" ng-show="$ctrl.room">
   <main-menu></main-menu>
 
-  <div class="col-sm-9 main-col">
+  <div class="col-sm-9 main-col" ng-style="{ 'background-image': 'url('+ $ctrl.room.settings.background + ')'}">
     <playlist-editor></playlist-editor>
     <choose-avatar></choose-avatar>
+    <choose-background></choose-background>
     <div id="content-wrapper">
       <div class="video-container">
         <player></player>

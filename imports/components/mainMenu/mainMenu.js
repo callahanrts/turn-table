@@ -43,6 +43,11 @@ class MainMenuCtrl {
     $("#content-wrapper").fadeOut(200);
   }
 
+  changeBackground() {
+    $("#backgrounds").fadeIn(200);
+    $("#content-wrapper").fadeOut(200);
+  }
+
   changeName() {
     this.editName = true;
     setTimeout(() => {

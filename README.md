@@ -8,6 +8,12 @@ Add a loading dialog during track search/import
 Figure out how to let youtube videos start playing while the tab is inactive. Soundcloud
 can do it so why can't youtube?
 
+There's an issue with keeping score of dj points for users
+
+Add an error messaging system that tells users when something goes wrong (ie. Lea
+wasn't sure why it kept only playing my songs, but she didn't have an active playlist).
+It should tell people "Hey! You were skipped because you don't have an active playlist!"
+
 
 ## Structure (from meteor)
 

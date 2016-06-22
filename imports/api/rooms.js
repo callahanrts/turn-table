@@ -138,6 +138,7 @@ Meteor.methods({ 'rooms.insert' (room) {
       if(settings.hasOwnProperty("requeue")){ room.settings.requeue = settings.requeue }
       if(settings.hasOwnProperty("size")){ room.settings.size = settings.size }
       if(settings.maxTrackLength){ room.settings.maxTrackLength = settings.maxTrackLength }
+      if(settings.background){ room.settings.background = settings.background }
 
       Rooms.update(room._id, { $set: { settings: room.settings } });
     }
@@ -253,6 +254,7 @@ var trackOver = (room) => {
 
 var defaultSettings = () => {
   return {
+    background: '1.jpg',
     requeue: false,
     maxTrackLength: 10,
     size: "medium",
