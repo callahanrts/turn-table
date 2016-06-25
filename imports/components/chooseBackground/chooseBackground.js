@@ -29,12 +29,11 @@ class ChooseBackgroundCtrl {
   }
 
   myBackground(bg) {
-    return !!this.room && bg == this.room.settings.background;
+    return !!this.room && this.room.settings.background.indexOf(bg) != -1;
   }
 
   selectBackground(bg) {
     this.room.settings.background = "https://s3-us-west-1.amazonaws.com/plugdj-avatars/backgrounds/" + bg;
-    console.log(this.room.settings)
     Meteor.call('room.updateSettings', this.room._id, this.room.settings);
   }
 

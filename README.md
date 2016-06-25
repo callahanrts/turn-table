@@ -14,6 +14,9 @@ Add an error messaging system that tells users when something goes wrong (ie. Le
 wasn't sure why it kept only playing my songs, but she didn't have an active playlist).
 It should tell people "Hey! You were skipped because you don't have an active playlist!"
 
+Sometimes the room doesn't update avatars when someone joins the room (or lea's hamburger avatar
+is not loading the standing gif?)
+
 
 ## Structure (from meteor)
 
