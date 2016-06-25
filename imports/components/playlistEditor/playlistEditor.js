@@ -22,6 +22,7 @@ class PlaylistEditorCtrl {
 
     this.searchResults = [];
     this.selectedTracks = [];
+    this.query = "";
 
     this.sortableOptions = {
       stop: () => {
@@ -30,31 +31,29 @@ class PlaylistEditorCtrl {
       axis: 'y'
     };
 
-    $scope.query = "";
-
     $scope.ps = playlistService;
     $scope.$watch('ps.currentPlaylist', function(newVal) {
       $ctrl.currentPlaylist = newVal;
     });
 
-    var timeoutPromise;
-    var delayInMs = 750;
-    $scope.$watch("query", function(query) {
-      if(!!query) {
-        $timeout.cancel(timeoutPromise);  //does nothing, if timeout alrdy done
-        timeoutPromise = $timeout(function(){   //Set timeout
-          $scope.loading = true;
-          if(/soundcloud.com/.test(query)){
-            $ctrl.searchSoundcloud(query, true)
-          } else if(/youtube.com/.test(query)){
-            $ctrl.searchYoutube(query)
-          } else {
-            $ctrl.source == "soundcloud" ? $ctrl.searchSoundcloud(query) : $ctrl.searchYoutube(query);
-          }
-        }, delayInMs);
-      }
-    });
+  }
 
+  enterSearch(event) {
+    if(event.keyCode == 13){
+      this.search();
+    }
+  }
+
+  search() {
+    if(!!this.query) {
+      if(/soundcloud.com/.test(this.query)){
+        this.searchSoundcloud(this.query, true)
+      } else if(/youtube.com/.test(this.query)){
+        this.searchYoutube(this.query)
+      } else {
+        this.source == "soundcloud" ? this.searchSoundcloud(this.query) : this.searchYoutube(this.query);
+      }
+    }
   }
 
   searchYoutube(query) {
