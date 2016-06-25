@@ -1,23 +1,20 @@
 # Turn Table
 
 ## TODO
-Add dialog that pops up when there will be a duplicate added to a playlist
+- Add dialog that pops up when there will be a duplicate added to a playlist
 
-Add a loading dialog during track search/import
+- Add a loading dialog during track search/import
+- Make searching/importing respond to enter/search button
 
-Make searching/importing respond to enter/search button
+- Figure out how to let youtube videos start playing while the tab is inactive. Soundcloud
+  can do it so why can't youtube?
 
-Figure out how to let youtube videos start playing while the tab is inactive. Soundcloud
-can do it so why can't youtube?
+- Add an error messaging system that tells users when something goes wrong (ie. Lea
+  wasn't sure why it kept only playing my songs, but she didn't have an active playlist).
+  It should tell people "Hey! You were skipped because you don't have an active playlist!"
 
-~~~There's an issue with keeping score of dj points for users~~~
-
-Add an error messaging system that tells users when something goes wrong (ie. Lea
-wasn't sure why it kept only playing my songs, but she didn't have an active playlist).
-It should tell people "Hey! You were skipped because you don't have an active playlist!"
-
-Sometimes the room doesn't update avatars when someone joins the room (or lea's hamburger avatar
-is not loading the standing gif?)
+- Sometimes the room doesn't update avatars when someone joins the room (or lea's hamburger avatar
+  is not loading the standing gif?)
 
 
 ## Structure (from meteor)

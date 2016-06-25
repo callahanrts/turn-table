@@ -241,7 +241,8 @@ var playNext = (roomId) => {
     // If the next person has a track lined up, let them play it. Otherwise, skip them
     // and eject them from the queue
     let track = nextTrack(user.id);
-    if(!!track){
+    let u = Meteor.users.findOne(user.id)
+    if(!!track && u.status.online && u.status.currentRoom == room._id){
       updatePlaying(room, track, user);
     } else {
       Rooms.update(room._id, { $set: { queue: without(room.queue, user.id) } });

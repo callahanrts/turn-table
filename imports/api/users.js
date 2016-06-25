@@ -6,7 +6,7 @@ import { Rooms } from './rooms.js';
 
 if (Meteor.isServer) {
   Meteor.publish('users', function tasksPublication(roomId) {
-    return Meteor.users.find({ 'status.currentRoom': roomId }, {
+    return Meteor.users.find({ 'status.currentRoom': roomId, 'status.online': true }, {
       fields: {
         status: 1,
         profile: 1
@@ -73,10 +73,7 @@ if (Meteor.isServer) {
         if(!u.status.online || (!!room && u.status.currentRoom != room._id)){
           if(!!room){
             Rooms.update(room._id, {
-              $set: {
-                queue: without(room.queue, user._id),
-                audience: without(room.audience, user._id)
-              }
+              $set: { queue: without(room.queue, user._id) }
             });
             console.log("removing " + user._id)
           }
