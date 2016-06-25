@@ -5,10 +5,12 @@ Add dialog that pops up when there will be a duplicate added to a playlist
 
 Add a loading dialog during track search/import
 
+Make searching/importing respond to enter/search button
+
 Figure out how to let youtube videos start playing while the tab is inactive. Soundcloud
 can do it so why can't youtube?
 
-There's an issue with keeping score of dj points for users
+~~~There's an issue with keeping score of dj points for users~~~
 
 Add an error messaging system that tells users when something goes wrong (ie. Lea
 wasn't sure why it kept only playing my songs, but she didn't have an active playlist).

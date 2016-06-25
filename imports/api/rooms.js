@@ -186,9 +186,9 @@ var scoreTrack = (room) => {
   if(!room.playing.user) return
   let user = Meteor.users.findOne(room.playing.user._id);
   if(!!user && !!room.playing) {
-    console.log(user.profile.name, user.profile.score, room.playing.upvoted.length)
-    user.profile.score = (user.profile.score || 0) + room.playing.upvoted.length;
-    Meteor.users.update(user._id, {$set: {"profile.score": user.profile.score }});
+    console.log(user.profile.name, user.score, room.playing.upvoted.length)
+    user.score = (user.score || 0) + room.playing.upvoted.length;
+    Meteor.users.update(user._id, {$set: {"score": user.score, "profile.score": user.score }});
   }
 }
 
