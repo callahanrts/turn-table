@@ -28,6 +28,15 @@ if (Meteor.isServer) {
       playNext(roomId);
     },
 
+    'room.getRooms' () {
+      let rooms = Rooms.find().fetch();
+      rooms = rooms.map((room) => {
+        room.audience_count = Meteor.users.find({ 'status.currentRoom': room._id }).fetch().length;
+        return room;
+      })
+      return rooms;
+    },
+
     'room.elapsedTime' (roomId) {
       let room = Rooms.findOne(roomId);
       return new Date().getTime() - room.playing.started;

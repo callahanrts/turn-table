@@ -10,9 +10,14 @@ class RoomListCtrl {
     this.$state = $state;
     $scope.viewModel(this);
     this.subscribe('rooms');
-
+    // set Session variable in method callback
+    Meteor.call('room.getRooms', function(error, result){
+      console.log(result, error)
+      Session.set('rooms', result);
+    });
     this.helpers({
       rooms() {
+        return Session.get('rooms');
         return Rooms.find({});
       }
     })
@@ -42,12 +47,7 @@ class RoomListCtrl {
   }
 
   audience(room) {
-    let audience = 0;
-    if(Array.isArray(room.audience)) {
-      audience = room.audience.length;
-    }
-    if(!!room.playing.user){ audience++; }
-    return audience;
+    return room.audience_count || 0;
   }
 
   nowPlayingStyle(room) {
